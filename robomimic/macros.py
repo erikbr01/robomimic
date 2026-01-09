@@ -1,6 +1,7 @@
 """
 Set of global variables shared across robomimic
 """
+
 # Sets debugging mode. Should be set at top-level script so that internal
 # debugging functionalities are made active
 DEBUG = False
@@ -9,7 +10,7 @@ DEBUG = False
 VISUALIZE_RANDOMIZER = False
 
 # wandb entity (eg. username or team name)
-WANDB_ENTITY = None
+WANDB_ENTITY = "erikbauer"
 
 # wandb api key (obtain from https://wandb.ai/authorize)
 # alternatively, set up wandb from terminal with `wandb login`
@@ -18,10 +19,13 @@ WANDB_API_KEY = None
 try:
     from robomimic.macros_private import *
 except ImportError:
-    from robomimic.utils.log_utils import log_warning
     import robomimic
+    from robomimic.utils.log_utils import log_warning
+
     log_warning(
-        "No private macro file found!"\
-        "\nIt is recommended to use a private macro file"\
-        "\nTo setup, run: python {}/scripts/setup_macros.py".format(robomimic.__path__[0])
+        "No private macro file found!"
+        "\nIt is recommended to use a private macro file"
+        "\nTo setup, run: python {}/scripts/setup_macros.py".format(
+            robomimic.__path__[0]
+        )
     )
