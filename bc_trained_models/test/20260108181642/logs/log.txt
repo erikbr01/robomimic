@@ -1,0 +1,2709 @@
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_eef_quat', 'robot0_gripper_qpos', 'robot0_eef_pos', 'object']
+using obs modality: rgb with keys: []
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+
+============= Loaded Environment Metadata =============
+obs key object with shape (14,)
+obs key robot0_eef_pos with shape (3,)
+obs key robot0_eef_quat with shape (4,)
+obs key robot0_gripper_qpos with shape (2,)
+[1m[33m[robosuite WARNING] [0mNo private macro file found! (macros.py:53)
+[1m[33m[robosuite WARNING] [0mIt is recommended to use a private macro file (macros.py:54)
+[1m[33m[robosuite WARNING] [0mTo setup, run: python /Users/erik/miniforge3/envs/robomimic/lib/python3.10/site-packages/robosuite/scripts/setup_macros.py (macros.py:55)
+[1m[33m[robosuite WARNING] [0mCould not import robosuite_models. Some robots may not be available. If you want to use these robots, please install robosuite_models from source (https://github.com/ARISE-Initiative/robosuite_models) or through pip install. (__init__.py:30)
+[1m[33m[robosuite WARNING] [0mCould not load the mink-based whole-body IK. Make sure you install related import properly, otherwise you will not be able to use the default IK controller setting for GR1 robot. (__init__.py:40)
+Created environment with name NutAssemblySquare
+Action size is 7
+NutAssemblySquare
+{
+    "camera_depths": false,
+    "camera_heights": 84,
+    "camera_widths": 84,
+    "control_freq": 20,
+    "controller_configs": {
+        "body_parts": {
+            "right": {
+                "control_delta": true,
+                "damping": 1,
+                "damping_limits": [
+                    0,
+                    10
+                ],
+                "gripper": {
+                    "type": "GRIP"
+                },
+                "impedance_mode": "fixed",
+                "input_max": 1,
+                "input_min": -1,
+                "input_ref_frame": "world",
+                "interpolation": null,
+                "kp": 150,
+                "kp_limits": [
+                    0,
+                    300
+                ],
+                "orientation_limits": null,
+                "output_max": [
+                    0.05,
+                    0.05,
+                    0.05,
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "output_min": [
+                    -0.05,
+                    -0.05,
+                    -0.05,
+                    -0.5,
+                    -0.5,
+                    -0.5
+                ],
+                "position_limits": null,
+                "ramp_ratio": 0.2,
+                "type": "OSC_POSE",
+                "uncouple_pos_ori": true
+            }
+        },
+        "type": "BASIC"
+    },
+    "has_offscreen_renderer": true,
+    "has_renderer": false,
+    "ignore_done": true,
+    "lite_physics": false,
+    "render_gpu_device_id": 0,
+    "reward_shaping": false,
+    "robots": [
+        "Panda"
+    ],
+    "use_camera_obs": false,
+    "use_object_obs": true
+}
+
+SequenceDataset: loading dataset into memory...
+  0%|          | 0/200 [00:00<?, ?it/s]100%|##########| 200/200 [00:00<00:00, 3650.03it/s]
+SequenceDataset: caching get_item calls...
+  0%|          | 0/30154 [00:00<?, ?it/s]SequenceDataset: computing action statistics...
+
+  0%|          | 0/199 [00:00<?, ?it/s][A100%|##########| 199/199 [00:00<00:00, 20653.93it/s]
+ 16%|#6        | 4864/30154 [00:00<00:00, 48635.18it/s] 35%|###4      | 10425/30154 [00:00<00:00, 52734.10it/s] 53%|#####3    | 16027/30154 [00:00<00:00, 54230.49it/s] 72%|#######1  | 21596/30154 [00:00<00:00, 54802.74it/s] 90%|######### | 27184/30154 [00:00<00:00, 55189.53it/s]100%|##########| 30154/30154 [00:00<00:00, 54418.02it/s]
+
+============= Training Dataset =============
+SequenceDataset (
+	path=datasets/square/ph/low_dim_v15.hdf5
+	obs_keys=('object', 'robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos')
+	seq_length=1
+	filter_key=none
+	frame_stack=1
+	pad_seq_length=True
+	pad_frame_stack=True
+	goal_mode=none
+	cache_mode=all
+	num_demos=200
+	num_sequences=30154
+)
+
+
+============= Model Summary =============
+ObservationKeyToModalityDict: action not found, adding action to mapping with assumed low_dim modality!
+BC (
+  ModuleDict(
+    (policy): ActorNetwork(
+        action_dim=7
+  
+        encoder=ObservationGroupEncoder(
+            group=obs
+            ObservationEncoder(
+                Key(
+                    name=object
+                    shape=[14]
+                    modality=low_dim
+                    randomizer=ModuleList(
+                      (0): None
+                    )
+                    net=None
+                    sharing_from=None
+                )
+                Key(
+                    name=robot0_eef_pos
+                    shape=[3]
+                    modality=low_dim
+                    randomizer=ModuleList(
+                      (0): None
+                    )
+                    net=None
+                    sharing_from=None
+                )
+                Key(
+                    name=robot0_eef_quat
+                    shape=[4]
+                    modality=low_dim
+                    randomizer=ModuleList(
+                      (0): None
+                    )
+                    net=None
+                    sharing_from=None
+                )
+                Key(
+                    name=robot0_gripper_qpos
+                    shape=[2]
+                    modality=low_dim
+                    randomizer=ModuleList(
+                      (0): None
+                    )
+                    net=None
+                    sharing_from=None
+                )
+                output_shape=[23]
+            )
+        )
+  
+        mlp=MLP(
+            input_dim=23
+            output_dim=1024
+            layer_dims=[1024]
+            layer_func=Linear
+            dropout=None
+            act=ReLU
+            output_act=ReLU
+        )
+  
+        decoder=ObservationDecoder(
+            Key(
+                name=action
+                shape=(7,)
+                modality=low_dim
+                net=(Linear(in_features=1024, out_features=7, bias=True))
+            )
+        )
+    )
+  )
+)
+
+**************************************************
+Warnings generated by robomimic have been duplicated here (from above) for convenience. Please check them carefully.
+[33mROBOMIMIC WARNING(
+    No private macro file found!
+    It is recommended to use a private macro file
+    To setup, run: python /Users/erik/stanford/asl_rotation/robomimic/robomimic/scripts/setup_macros.py
+)[0m
+**************************************************
+
+  0%|          | 0/100 [00:00<?, ?it/s]  1%|1         | 1/100 [00:00<00:12,  8.21it/s] 18%|#8        | 18/100 [00:00<00:00, 93.62it/s] 40%|####      | 40/100 [00:00<00:00, 145.61it/s] 60%|######    | 60/100 [00:00<00:00, 164.76it/s] 82%|########2 | 82/100 [00:00<00:00, 181.34it/s]100%|##########| 100/100 [00:00<00:00, 159.42it/s]
+Train Epoch 1
+{
+    "Cosine_Loss": 0.6429839372634888,
+    "L1_Loss": 0.08199972219765186,
+    "L2_Loss": 0.16627273693680764,
+    "Loss": 0.16627273693680764,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.02715163103704981,
+    "Time_Data_Loading": 0.00105362335840861,
+    "Time_Epoch": 0.010463547706604005,
+    "Time_Log_Info": 0.0015345017115275066,
+    "Time_Process_Batch": 0.0012611826260884604,
+    "Time_Train_Batch": 0.006591924031575521
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 1 Memory Usage: 1863 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 199.02it/s] 41%|####1     | 41/100 [00:00<00:00, 203.26it/s] 63%|######3   | 63/100 [00:00<00:00, 210.52it/s] 85%|########5 | 85/100 [00:00<00:00, 186.17it/s]100%|##########| 100/100 [00:00<00:00, 185.54it/s]
+Train Epoch 2
+{
+    "Cosine_Loss": 0.5847929438948631,
+    "L1_Loss": 0.06578526977449656,
+    "L2_Loss": 0.13663077756762504,
+    "Loss": 0.13663077756762504,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.03250650707597742,
+    "Time_Data_Loading": 0.0010291298230489096,
+    "Time_Epoch": 0.00899125337600708,
+    "Time_Log_Info": 0.0018905997276306152,
+    "Time_Process_Batch": 0.0012060801188151042,
+    "Time_Train_Batch": 0.004845837752024333
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 2 Memory Usage: 1868 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 152.64it/s] 38%|###8      | 38/100 [00:00<00:00, 191.28it/s] 60%|######    | 60/100 [00:00<00:00, 203.00it/s] 81%|########1 | 81/100 [00:00<00:00, 204.24it/s]100%|##########| 100/100 [00:00<00:00, 201.66it/s]
+Train Epoch 3
+{
+    "Cosine_Loss": 0.5449466815590859,
+    "L1_Loss": 0.057329500205814836,
+    "L2_Loss": 0.11840605333447457,
+    "Loss": 0.11840605333447457,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.03533134927829451,
+    "Time_Data_Loading": 0.0009837746620178223,
+    "Time_Epoch": 0.008272365729014079,
+    "Time_Log_Info": 0.0016365607579549154,
+    "Time_Process_Batch": 0.0011972268422444662,
+    "Time_Train_Batch": 0.004437001546223959
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 3 Memory Usage: 1869 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 204.30it/s] 42%|####2     | 42/100 [00:00<00:00, 203.64it/s] 63%|######3   | 63/100 [00:00<00:00, 185.93it/s] 82%|########2 | 82/100 [00:00<00:00, 172.33it/s]100%|##########| 100/100 [00:00<00:00, 161.57it/s]100%|##########| 100/100 [00:00<00:00, 172.39it/s]
+Train Epoch 4
+{
+    "Cosine_Loss": 0.49821444183588026,
+    "L1_Loss": 0.049854162111878396,
+    "L2_Loss": 0.10239540979266167,
+    "Loss": 0.10239540979266167,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.03762532256423583,
+    "Time_Data_Loading": 0.0010491569836934408,
+    "Time_Epoch": 0.009674417972564697,
+    "Time_Log_Info": 0.0022624810536702473,
+    "Time_Process_Batch": 0.0012432456016540528,
+    "Time_Train_Batch": 0.005100385348002116
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 4 Memory Usage: 1869 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 207.83it/s] 43%|####3     | 43/100 [00:00<00:00, 211.72it/s] 65%|######5   | 65/100 [00:00<00:00, 209.91it/s] 87%|########7 | 87/100 [00:00<00:00, 210.80it/s]100%|##########| 100/100 [00:00<00:00, 211.23it/s]
+Train Epoch 5
+{
+    "Cosine_Loss": 0.4512703052163124,
+    "L1_Loss": 0.04351847007870674,
+    "L2_Loss": 0.08907052826136351,
+    "Loss": 0.08907052826136351,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.048265268649374776,
+    "Time_Data_Loading": 0.0009931405385335287,
+    "Time_Epoch": 0.007898537317911784,
+    "Time_Log_Info": 0.0014566818873087565,
+    "Time_Process_Batch": 0.0011782447497049968,
+    "Time_Train_Batch": 0.0042519807815551754
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 5 Memory Usage: 1879 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 192.32it/s] 40%|####      | 40/100 [00:00<00:00, 184.66it/s] 61%|######1   | 61/100 [00:00<00:00, 192.13it/s] 81%|########1 | 81/100 [00:00<00:00, 177.54it/s] 99%|#########9| 99/100 [00:00<00:00, 171.83it/s]100%|##########| 100/100 [00:00<00:00, 177.87it/s]
+Train Epoch 6
+{
+    "Cosine_Loss": 0.4206534364819527,
+    "L1_Loss": 0.038531954400241375,
+    "L2_Loss": 0.07861910596489906,
+    "Loss": 0.07861910596489906,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.05987510527163977,
+    "Time_Data_Loading": 0.0010468681653340657,
+    "Time_Epoch": 0.009377014636993409,
+    "Time_Log_Info": 0.002019826571146647,
+    "Time_Process_Batch": 0.0012882351875305176,
+    "Time_Train_Batch": 0.005002419153849284
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 6 Memory Usage: 1888 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 198.61it/s] 42%|####2     | 42/100 [00:00<00:00, 210.78it/s] 65%|######5   | 65/100 [00:00<00:00, 215.49it/s] 87%|########7 | 87/100 [00:00<00:00, 215.73it/s]100%|##########| 100/100 [00:00<00:00, 214.82it/s]
+Train Epoch 7
+{
+    "Cosine_Loss": 0.38838780075311663,
+    "L1_Loss": 0.03508272133767605,
+    "L2_Loss": 0.07165488235652447,
+    "Loss": 0.07165488235652447,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.06829059112249525,
+    "Time_Data_Loading": 0.0009919325510660806,
+    "Time_Epoch": 0.007767037550608317,
+    "Time_Log_Info": 0.0013881166776021322,
+    "Time_Process_Batch": 0.0011784950892130533,
+    "Time_Train_Batch": 0.004190067450205485
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 7 Memory Usage: 1889 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 198.59it/s] 40%|####      | 40/100 [00:00<00:00, 195.30it/s] 60%|######    | 60/100 [00:00<00:00, 189.34it/s] 79%|#######9  | 79/100 [00:00<00:00, 172.37it/s]100%|##########| 100/100 [00:00<00:00, 183.57it/s]100%|##########| 100/100 [00:00<00:00, 184.45it/s]
+Train Epoch 8
+{
+    "Cosine_Loss": 0.36840277269482613,
+    "L1_Loss": 0.03278320176526904,
+    "L2_Loss": 0.06684989765286446,
+    "Loss": 0.06684989765286446,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.0637484450777265,
+    "Time_Data_Loading": 0.001048449675242106,
+    "Time_Epoch": 0.0090425173441569,
+    "Time_Log_Info": 0.0019033114115397135,
+    "Time_Process_Batch": 0.0012398282686869302,
+    "Time_Train_Batch": 0.004831083615620931
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 8 Memory Usage: 1893 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 220.52it/s] 46%|####6     | 46/100 [00:00<00:00, 221.51it/s] 70%|#######   | 70/100 [00:00<00:00, 229.28it/s] 94%|#########3| 94/100 [00:00<00:00, 232.40it/s]100%|##########| 100/100 [00:00<00:00, 228.10it/s]
+Train Epoch 9
+{
+    "Cosine_Loss": 0.3421138045191765,
+    "L1_Loss": 0.030210063438862563,
+    "L2_Loss": 0.06163911059498787,
+    "Loss": 0.06163911059498787,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.05937671519772266,
+    "Time_Data_Loading": 0.000984807809193929,
+    "Time_Epoch": 0.007314133644104004,
+    "Time_Log_Info": 0.0012628038724263508,
+    "Time_Process_Batch": 0.0011509299278259278,
+    "Time_Train_Batch": 0.003898429870605469
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 9 Memory Usage: 1893 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.78it/s] 40%|####      | 40/100 [00:00<00:00, 172.75it/s] 58%|#####8    | 58/100 [00:00<00:00, 165.40it/s] 75%|#######5  | 75/100 [00:00<00:00, 164.23it/s] 99%|#########9| 99/100 [00:00<00:00, 187.56it/s]100%|##########| 100/100 [00:00<00:00, 180.29it/s]
+Train Epoch 10
+{
+    "Cosine_Loss": 0.3328591111302376,
+    "L1_Loss": 0.029116107784211635,
+    "L2_Loss": 0.05944695841521025,
+    "Loss": 0.05944695841521025,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.10502198161804699,
+    "Time_Data_Loading": 0.0010401646296183268,
+    "Time_Epoch": 0.009251034259796143,
+    "Time_Log_Info": 0.002151827017466227,
+    "Time_Process_Batch": 0.001201482613881429,
+    "Time_Train_Batch": 0.0048391461372375485
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 10 Memory Usage: 1898 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 222.30it/s] 48%|####8     | 48/100 [00:00<00:00, 233.31it/s] 72%|#######2  | 72/100 [00:00<00:00, 221.53it/s] 95%|#########5| 95/100 [00:00<00:00, 222.79it/s]100%|##########| 100/100 [00:00<00:00, 224.40it/s]
+Train Epoch 11
+{
+    "Cosine_Loss": 0.3232609385251999,
+    "L1_Loss": 0.027705019526183605,
+    "L2_Loss": 0.05658048551529646,
+    "Loss": 0.05658048551529646,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.0834546030981437,
+    "Time_Data_Loading": 0.0010081013043721518,
+    "Time_Epoch": 0.007435651620229086,
+    "Time_Log_Info": 0.0012480696042378745,
+    "Time_Process_Batch": 0.0011598745981852214,
+    "Time_Train_Batch": 0.00400089422861735
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 11 Memory Usage: 1898 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 178.41it/s] 39%|###9      | 39/100 [00:00<00:00, 192.47it/s] 59%|#####8    | 59/100 [00:00<00:00, 181.53it/s] 78%|#######8  | 78/100 [00:00<00:00, 175.64it/s]100%|##########| 100/100 [00:00<00:00, 188.76it/s]
+Train Epoch 12
+{
+    "Cosine_Loss": 0.30659578382968905,
+    "L1_Loss": 0.025775921251624822,
+    "L2_Loss": 0.05257127143442631,
+    "Loss": 0.05257127143442631,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.07071170433348016,
+    "Time_Data_Loading": 0.0010498682657877603,
+    "Time_Epoch": 0.008836746215820312,
+    "Time_Log_Info": 0.0018407543500264486,
+    "Time_Process_Batch": 0.0012305776278177898,
+    "Time_Train_Batch": 0.00469743808110555
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 12 Memory Usage: 1898 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 213.95it/s] 47%|####6     | 47/100 [00:00<00:00, 229.38it/s] 71%|#######1  | 71/100 [00:00<00:00, 234.05it/s] 95%|#########5| 95/100 [00:00<00:00, 236.03it/s]100%|##########| 100/100 [00:00<00:00, 233.18it/s]
+Train Epoch 13
+{
+    "Cosine_Loss": 0.30096613451838494,
+    "L1_Loss": 0.02525259690359235,
+    "L2_Loss": 0.051500786878168586,
+    "Loss": 0.051500786878168586,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.07660505911337168,
+    "Time_Data_Loading": 0.0009782870610555014,
+    "Time_Epoch": 0.007154683272043864,
+    "Time_Log_Info": 0.0011404752731323242,
+    "Time_Process_Batch": 0.0011932015419006347,
+    "Time_Train_Batch": 0.0038256128629048664
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 13 Memory Usage: 1899 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 17%|#7        | 17/100 [00:00<00:00, 169.27it/s] 34%|###4      | 34/100 [00:00<00:00, 159.89it/s] 51%|#####1    | 51/100 [00:00<00:00, 157.88it/s] 67%|######7   | 67/100 [00:00<00:00, 156.50it/s] 90%|######### | 90/100 [00:00<00:00, 180.73it/s]100%|##########| 100/100 [00:00<00:00, 176.00it/s]
+Train Epoch 14
+{
+    "Cosine_Loss": 0.2972200071811676,
+    "L1_Loss": 0.024608712177723646,
+    "L2_Loss": 0.05034538302570581,
+    "Loss": 0.05034538302570581,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.10532680635165889,
+    "Time_Data_Loading": 0.0010644078254699707,
+    "Time_Epoch": 0.009477965037027995,
+    "Time_Log_Info": 0.00218738317489624,
+    "Time_Process_Batch": 0.0012163996696472168,
+    "Time_Train_Batch": 0.0049893697102864586
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 14 Memory Usage: 1899 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 227.65it/s] 47%|####6     | 47/100 [00:00<00:00, 233.35it/s] 71%|#######1  | 71/100 [00:00<00:00, 222.12it/s] 95%|#########5| 95/100 [00:00<00:00, 226.76it/s]100%|##########| 100/100 [00:00<00:00, 227.18it/s]
+Train Epoch 15
+{
+    "Cosine_Loss": 0.2988798177242279,
+    "L1_Loss": 0.024046960305422544,
+    "L2_Loss": 0.04924129992723465,
+    "Loss": 0.04924129992723465,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.11204687166748045,
+    "Time_Data_Loading": 0.0010129094123840332,
+    "Time_Epoch": 0.00734323263168335,
+    "Time_Log_Info": 0.0011624415715535481,
+    "Time_Process_Batch": 0.0011293689409891765,
+    "Time_Train_Batch": 0.004020925362904867
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 15 Memory Usage: 1899 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 17%|#7        | 17/100 [00:00<00:00, 162.86it/s] 34%|###4      | 34/100 [00:00<00:00, 159.36it/s] 50%|#####     | 50/100 [00:00<00:00, 155.98it/s] 68%|######8   | 68/100 [00:00<00:00, 163.20it/s] 91%|#########1| 91/100 [00:00<00:00, 184.45it/s]100%|##########| 100/100 [00:00<00:00, 177.68it/s]
+Train Epoch 16
+{
+    "Cosine_Loss": 0.2800709557533264,
+    "L1_Loss": 0.023265122175216674,
+    "L2_Loss": 0.047512959130108355,
+    "Loss": 0.047512959130108355,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.09578987990955284,
+    "Time_Data_Loading": 0.00104826291402181,
+    "Time_Epoch": 0.009389118353525797,
+    "Time_Log_Info": 0.002143816153208415,
+    "Time_Process_Batch": 0.0012243390083312988,
+    "Time_Train_Batch": 0.004951314131418864
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 16 Memory Usage: 1900 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 219.87it/s] 45%|####5     | 45/100 [00:00<00:00, 221.69it/s] 69%|######9   | 69/100 [00:00<00:00, 229.48it/s] 92%|#########2| 92/100 [00:00<00:00, 228.57it/s]100%|##########| 100/100 [00:00<00:00, 228.08it/s]
+Train Epoch 17
+{
+    "Cosine_Loss": 0.2823458221554756,
+    "L1_Loss": 0.02269713144749403,
+    "L2_Loss": 0.04636515745893121,
+    "Loss": 0.04636515745893121,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.10735864804879384,
+    "Time_Data_Loading": 0.0009828964869181315,
+    "Time_Epoch": 0.00731736421585083,
+    "Time_Log_Info": 0.0012476881345113119,
+    "Time_Process_Batch": 0.0011427164077758788,
+    "Time_Train_Batch": 0.0039235115051269535
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 17 Memory Usage: 1900 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 15%|#5        | 15/100 [00:00<00:00, 149.85it/s] 31%|###1      | 31/100 [00:00<00:00, 150.74it/s] 47%|####6     | 47/100 [00:00<00:00, 150.08it/s] 66%|######6   | 66/100 [00:00<00:00, 163.93it/s] 90%|######### | 90/100 [00:00<00:00, 190.52it/s]100%|##########| 100/100 [00:00<00:00, 179.56it/s]
+Train Epoch 18
+{
+    "Cosine_Loss": 0.2813617818057537,
+    "L1_Loss": 0.022366420002654194,
+    "L2_Loss": 0.045703140832483766,
+    "Loss": 0.045703140832483766,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.10287573769774098,
+    "Time_Data_Loading": 0.0010358492533365886,
+    "Time_Epoch": 0.009289415677388509,
+    "Time_Log_Info": 0.0020431001981099446,
+    "Time_Process_Batch": 0.001244811216990153,
+    "Time_Train_Batch": 0.004945361614227295
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 18 Memory Usage: 1900 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 24%|##4       | 24/100 [00:00<00:00, 230.95it/s] 48%|####8     | 48/100 [00:00<00:00, 234.80it/s] 72%|#######2  | 72/100 [00:00<00:00, 236.70it/s] 96%|#########6| 96/100 [00:00<00:00, 236.62it/s]100%|##########| 100/100 [00:00<00:00, 235.07it/s]
+Train Epoch 19
+{
+    "Cosine_Loss": 0.2717112185060978,
+    "L1_Loss": 0.021648164829239248,
+    "L2_Loss": 0.04421510325744748,
+    "Loss": 0.04421510325744748,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.11502042551977866,
+    "Time_Data_Loading": 0.0009803891181945801,
+    "Time_Epoch": 0.007098281383514404,
+    "Time_Log_Info": 0.001091595490773519,
+    "Time_Process_Batch": 0.001137077808380127,
+    "Time_Train_Batch": 0.0038707613945007323
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 19 Memory Usage: 1900 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.60it/s] 40%|####      | 40/100 [00:00<00:00, 187.00it/s] 64%|######4   | 64/100 [00:00<00:00, 209.12it/s] 88%|########8 | 88/100 [00:00<00:00, 220.03it/s]100%|##########| 100/100 [00:00<00:00, 214.78it/s]
+Train Epoch 20
+{
+    "Cosine_Loss": 0.277814077436924,
+    "L1_Loss": 0.02146993380971253,
+    "L2_Loss": 0.04390086125582457,
+    "Loss": 0.04390086125582457,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.09510703087442379,
+    "Time_Data_Loading": 0.0010001103083292643,
+    "Time_Epoch": 0.007768034934997559,
+    "Time_Log_Info": 0.0014279802640279134,
+    "Time_Process_Batch": 0.0011659344037373862,
+    "Time_Train_Batch": 0.004155945777893066
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 20 Memory Usage: 1900 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 223.62it/s] 47%|####6     | 47/100 [00:00<00:00, 233.05it/s] 71%|#######1  | 71/100 [00:00<00:00, 229.99it/s] 95%|#########5| 95/100 [00:00<00:00, 231.67it/s]100%|##########| 100/100 [00:00<00:00, 231.20it/s]
+Train Epoch 21
+{
+    "Cosine_Loss": 0.2712246663868427,
+    "L1_Loss": 0.0212354589253664,
+    "L2_Loss": 0.04337356561794877,
+    "Loss": 0.04337356561794877,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.11367101610321698,
+    "Time_Data_Loading": 0.0009899417559305827,
+    "Time_Epoch": 0.007216950257619222,
+    "Time_Log_Info": 0.0011986096700032551,
+    "Time_Process_Batch": 0.0011178215344746908,
+    "Time_Train_Batch": 0.0038926402727762857
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 21 Memory Usage: 1901 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 177.81it/s] 36%|###6      | 36/100 [00:00<00:00, 153.48it/s] 52%|#####2    | 52/100 [00:00<00:00, 151.25it/s] 68%|######8   | 68/100 [00:00<00:00, 152.15it/s] 91%|#########1| 91/100 [00:00<00:00, 177.26it/s]100%|##########| 100/100 [00:00<00:00, 171.71it/s]
+Train Epoch 22
+{
+    "Cosine_Loss": 0.2736067974567413,
+    "L1_Loss": 0.02133121664635837,
+    "L2_Loss": 0.043704640045762064,
+    "Loss": 0.043704640045762064,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.13730123668474334,
+    "Time_Data_Loading": 0.0010798454284667968,
+    "Time_Epoch": 0.009713733196258545,
+    "Time_Log_Info": 0.0021773378054300943,
+    "Time_Process_Batch": 0.0012555718421936035,
+    "Time_Train_Batch": 0.005180040995279948
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 22 Memory Usage: 1901 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 220.78it/s] 46%|####6     | 46/100 [00:00<00:00, 224.22it/s] 69%|######9   | 69/100 [00:00<00:00, 223.79it/s] 94%|#########3| 94/100 [00:00<00:00, 230.43it/s]100%|##########| 100/100 [00:00<00:00, 228.48it/s]
+Train Epoch 23
+{
+    "Cosine_Loss": 0.26094102412462233,
+    "L1_Loss": 0.021052769999951124,
+    "L2_Loss": 0.043201650716364386,
+    "Loss": 0.043201650716364386,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.13207706404329655,
+    "Time_Data_Loading": 0.0009868184725443522,
+    "Time_Epoch": 0.007302784919738769,
+    "Time_Log_Info": 0.0012630343437194825,
+    "Time_Process_Batch": 0.0011391401290893554,
+    "Time_Train_Batch": 0.00389632781346639
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 23 Memory Usage: 1901 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 155.14it/s] 32%|###2      | 32/100 [00:00<00:00, 154.62it/s] 48%|####8     | 48/100 [00:00<00:00, 150.59it/s] 67%|######7   | 67/100 [00:00<00:00, 165.38it/s] 91%|#########1| 91/100 [00:00<00:00, 190.62it/s]100%|##########| 100/100 [00:00<00:00, 177.61it/s]
+Train Epoch 24
+{
+    "Cosine_Loss": 0.26719470381736754,
+    "L1_Loss": 0.020409793835133316,
+    "L2_Loss": 0.041785213947296146,
+    "Loss": 0.041785213947296146,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.14722800181709317,
+    "Time_Data_Loading": 0.0010599732398986817,
+    "Time_Epoch": 0.009392217795054118,
+    "Time_Log_Info": 0.0021674036979675293,
+    "Time_Process_Batch": 0.0012021899223327638,
+    "Time_Train_Batch": 0.004941888650258382
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 24 Memory Usage: 1901 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 218.98it/s] 45%|####5     | 45/100 [00:00<00:00, 223.57it/s] 69%|######9   | 69/100 [00:00<00:00, 230.42it/s] 94%|#########3| 94/100 [00:00<00:00, 234.23it/s]100%|##########| 100/100 [00:00<00:00, 228.91it/s]
+Train Epoch 25
+{
+    "Cosine_Loss": 0.273385373800993,
+    "L1_Loss": 0.021247889678925276,
+    "L2_Loss": 0.0436818235181272,
+    "Loss": 0.0436818235181272,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.16391968215881206,
+    "Time_Data_Loading": 0.0009976466496785482,
+    "Time_Epoch": 0.0072902162869771326,
+    "Time_Log_Info": 0.0011750300725301107,
+    "Time_Process_Batch": 0.0011650284131368002,
+    "Time_Train_Batch": 0.00393295685450236
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 25 Memory Usage: 1901 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 152.88it/s] 32%|###2      | 32/100 [00:00<00:00, 155.87it/s] 48%|####8     | 48/100 [00:00<00:00, 152.57it/s] 69%|######9   | 69/100 [00:00<00:00, 173.57it/s] 92%|#########2| 92/100 [00:00<00:00, 192.16it/s]100%|##########| 100/100 [00:00<00:00, 181.55it/s]
+Train Epoch 26
+{
+    "Cosine_Loss": 0.2607879537343979,
+    "L1_Loss": 0.020380775779485702,
+    "L2_Loss": 0.04182507783174515,
+    "Loss": 0.04182507783174515,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.1458681266532949,
+    "Time_Data_Loading": 0.0010303378105163575,
+    "Time_Epoch": 0.009191552797953287,
+    "Time_Log_Info": 0.0020319660504659015,
+    "Time_Process_Batch": 0.0011936267217000326,
+    "Time_Train_Batch": 0.004912368456522624
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 26 Memory Usage: 1902 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 222.48it/s] 46%|####6     | 46/100 [00:00<00:00, 224.96it/s] 69%|######9   | 69/100 [00:00<00:00, 225.36it/s] 93%|#########3| 93/100 [00:00<00:00, 228.53it/s]100%|##########| 100/100 [00:00<00:00, 219.13it/s]
+Train Epoch 27
+{
+    "Cosine_Loss": 0.26171681270003316,
+    "L1_Loss": 0.019891423992812633,
+    "L2_Loss": 0.04076230276376009,
+    "Loss": 0.04076230276376009,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.13520867372611975,
+    "Time_Data_Loading": 0.00099790891011556,
+    "Time_Epoch": 0.00761341651280721,
+    "Time_Log_Info": 0.0013870557149251303,
+    "Time_Process_Batch": 0.0011443734169006349,
+    "Time_Train_Batch": 0.004066316286722819
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 27 Memory Usage: 1902 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 156.68it/s] 32%|###2      | 32/100 [00:00<00:00, 153.56it/s] 50%|#####     | 50/100 [00:00<00:00, 162.68it/s] 74%|#######4  | 74/100 [00:00<00:00, 190.27it/s] 97%|#########7| 97/100 [00:00<00:00, 203.39it/s]100%|##########| 100/100 [00:00<00:00, 189.32it/s]
+Train Epoch 28
+{
+    "Cosine_Loss": 0.259545361995697,
+    "L1_Loss": 0.020118660666048525,
+    "L2_Loss": 0.04119611477479339,
+    "Loss": 0.04119611477479339,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.12512964371875568,
+    "Time_Data_Loading": 0.0010267257690429687,
+    "Time_Epoch": 0.008810865879058837,
+    "Time_Log_Info": 0.0018680214881896973,
+    "Time_Process_Batch": 0.0012176911036173503,
+    "Time_Train_Batch": 0.004679572582244873
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 28 Memory Usage: 1902 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 218.08it/s] 46%|####6     | 46/100 [00:00<00:00, 229.85it/s] 70%|#######   | 70/100 [00:00<00:00, 230.52it/s] 94%|#########3| 94/100 [00:00<00:00, 226.39it/s]100%|##########| 100/100 [00:00<00:00, 225.66it/s]
+Train Epoch 29
+{
+    "Cosine_Loss": 0.25495354846119883,
+    "L1_Loss": 0.01932596103288233,
+    "L2_Loss": 0.03963802795857191,
+    "Loss": 0.03963802795857191,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.1297729896783858,
+    "Time_Data_Loading": 0.0010090231895446776,
+    "Time_Epoch": 0.007393848896026611,
+    "Time_Log_Info": 0.001156167189280192,
+    "Time_Process_Batch": 0.0011547366778055827,
+    "Time_Train_Batch": 0.0040545781453450525
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 29 Memory Usage: 1902 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 17%|#7        | 17/100 [00:00<00:00, 162.60it/s] 34%|###4      | 34/100 [00:00<00:00, 155.69it/s] 51%|#####1    | 51/100 [00:00<00:00, 161.60it/s] 75%|#######5  | 75/100 [00:00<00:00, 189.16it/s] 98%|#########8| 98/100 [00:00<00:00, 202.28it/s]100%|##########| 100/100 [00:00<00:00, 187.20it/s]
+Train Epoch 30
+{
+    "Cosine_Loss": 0.2594560597836971,
+    "L1_Loss": 0.01946923871524632,
+    "L2_Loss": 0.039837842285633085,
+    "Loss": 0.039837842285633085,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.15444544318161207,
+    "Time_Data_Loading": 0.0010532538096110027,
+    "Time_Epoch": 0.00891048510869344,
+    "Time_Log_Info": 0.001957869529724121,
+    "Time_Process_Batch": 0.0011893391609191894,
+    "Time_Train_Batch": 0.004690865675608317
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 30 Memory Usage: 1903 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 217.10it/s] 45%|####5     | 45/100 [00:00<00:00, 221.55it/s] 70%|#######   | 70/100 [00:00<00:00, 229.95it/s] 93%|#########3| 93/100 [00:00<00:00, 213.93it/s]100%|##########| 100/100 [00:00<00:00, 210.98it/s]
+Train Epoch 31
+{
+    "Cosine_Loss": 0.2553777691721916,
+    "L1_Loss": 0.019542722851037978,
+    "L2_Loss": 0.04021598897874355,
+    "Loss": 0.04021598897874355,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.14571741818075679,
+    "Time_Data_Loading": 0.0010225971539815266,
+    "Time_Epoch": 0.00790703296661377,
+    "Time_Log_Info": 0.0014536062876383464,
+    "Time_Process_Batch": 0.0011724074681599935,
+    "Time_Train_Batch": 0.004240175088246663
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 31 Memory Usage: 1907 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 152.04it/s] 32%|###2      | 32/100 [00:00<00:00, 152.42it/s] 50%|#####     | 50/100 [00:00<00:00, 164.54it/s] 71%|#######1  | 71/100 [00:00<00:00, 179.97it/s] 95%|#########5| 95/100 [00:00<00:00, 200.73it/s]100%|##########| 100/100 [00:00<00:00, 186.63it/s]
+Train Epoch 32
+{
+    "Cosine_Loss": 0.2557733206450939,
+    "L1_Loss": 0.019457454336807133,
+    "L2_Loss": 0.039985169973224405,
+    "Loss": 0.039985169973224405,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.15606308796599477,
+    "Time_Data_Loading": 0.0010744531949361165,
+    "Time_Epoch": 0.008937537670135498,
+    "Time_Log_Info": 0.0018772602081298829,
+    "Time_Process_Batch": 0.0011868794759114583,
+    "Time_Train_Batch": 0.004778917630513509
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 32 Memory Usage: 1907 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 217.62it/s] 45%|####5     | 45/100 [00:00<00:00, 221.23it/s] 69%|######9   | 69/100 [00:00<00:00, 229.16it/s] 92%|#########2| 92/100 [00:00<00:00, 205.00it/s]100%|##########| 100/100 [00:00<00:00, 204.66it/s]
+Train Epoch 33
+{
+    "Cosine_Loss": 0.2639144390821457,
+    "L1_Loss": 0.019437649119645357,
+    "L2_Loss": 0.03993433900177479,
+    "Loss": 0.03993433900177479,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.1553616037428219,
+    "Time_Data_Loading": 0.0010262250900268555,
+    "Time_Epoch": 0.008150752385457356,
+    "Time_Log_Info": 0.001573328177134196,
+    "Time_Process_Batch": 0.0011637409528096516,
+    "Time_Train_Batch": 0.004369298617045085
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 33 Memory Usage: 1907 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 191.82it/s] 40%|####      | 40/100 [00:00<00:00, 189.95it/s] 64%|######4   | 64/100 [00:00<00:00, 209.99it/s] 87%|########7 | 87/100 [00:00<00:00, 216.76it/s]100%|##########| 100/100 [00:00<00:00, 213.57it/s]
+Train Epoch 34
+{
+    "Cosine_Loss": 0.2553761503100395,
+    "L1_Loss": 0.019175289515405893,
+    "L2_Loss": 0.03937286123633385,
+    "Loss": 0.03937286123633385,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.17950369950358436,
+    "Time_Data_Loading": 0.0010116179784138998,
+    "Time_Epoch": 0.007813505331675212,
+    "Time_Log_Info": 0.0014469226201375325,
+    "Time_Process_Batch": 0.0011739929517110188,
+    "Time_Train_Batch": 0.00416112740834554
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 34 Memory Usage: 1908 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 207.58it/s] 46%|####6     | 46/100 [00:00<00:00, 222.57it/s] 70%|#######   | 70/100 [00:00<00:00, 229.55it/s] 93%|#########3| 93/100 [00:00<00:00, 209.81it/s]100%|##########| 100/100 [00:00<00:00, 207.58it/s]
+Train Epoch 35
+{
+    "Cosine_Loss": 0.2629196821153164,
+    "L1_Loss": 0.01942385183647275,
+    "L2_Loss": 0.03997544221580029,
+    "Loss": 0.03997544221580029,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.1816197037560778,
+    "Time_Data_Loading": 0.001022946834564209,
+    "Time_Epoch": 0.008036196231842041,
+    "Time_Log_Info": 0.0014896114667256673,
+    "Time_Process_Batch": 0.0011608481407165527,
+    "Time_Train_Batch": 0.004344904422760009
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 35 Memory Usage: 1908 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 15%|#5        | 15/100 [00:00<00:00, 149.23it/s] 36%|###6      | 36/100 [00:00<00:00, 180.89it/s] 59%|#####8    | 59/100 [00:00<00:00, 201.53it/s] 83%|########2 | 83/100 [00:00<00:00, 215.92it/s]100%|##########| 100/100 [00:00<00:00, 209.03it/s]
+Train Epoch 36
+{
+    "Cosine_Loss": 0.2495216353237629,
+    "L1_Loss": 0.019021482774987816,
+    "L2_Loss": 0.03909757377579808,
+    "Loss": 0.03909757377579808,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.18574933340936695,
+    "Time_Data_Loading": 0.001009539763132731,
+    "Time_Epoch": 0.007980783780415853,
+    "Time_Log_Info": 0.0014696478843688964,
+    "Time_Process_Batch": 0.0012165506680806477,
+    "Time_Train_Batch": 0.004267704486846924
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 36 Memory Usage: 1908 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 214.86it/s] 45%|####5     | 45/100 [00:00<00:00, 221.35it/s] 69%|######9   | 69/100 [00:00<00:00, 228.99it/s] 92%|#########2| 92/100 [00:00<00:00, 209.29it/s]100%|##########| 100/100 [00:00<00:00, 211.73it/s]
+Train Epoch 37
+{
+    "Cosine_Loss": 0.2531519736349583,
+    "L1_Loss": 0.018918453156948088,
+    "L2_Loss": 0.03892987528815865,
+    "Loss": 0.03892987528815865,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.18251131266519224,
+    "Time_Data_Loading": 0.0010305404663085937,
+    "Time_Epoch": 0.007878804206848144,
+    "Time_Log_Info": 0.0014128724733988443,
+    "Time_Process_Batch": 0.0011776367823282878,
+    "Time_Train_Batch": 0.0042403340339660645
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 37 Memory Usage: 1908 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 190.67it/s] 40%|####      | 40/100 [00:00<00:00, 174.57it/s] 64%|######4   | 64/100 [00:00<00:00, 199.93it/s] 88%|########8 | 88/100 [00:00<00:00, 214.75it/s]100%|##########| 100/100 [00:00<00:00, 208.71it/s]
+Train Epoch 38
+{
+    "Cosine_Loss": 0.254761251360178,
+    "L1_Loss": 0.01892002798616886,
+    "L2_Loss": 0.038886536806821824,
+    "Loss": 0.038886536806821824,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.15479897773891935,
+    "Time_Data_Loading": 0.0010207891464233398,
+    "Time_Epoch": 0.007994234561920166,
+    "Time_Log_Info": 0.0015454808870951334,
+    "Time_Process_Batch": 0.0011754115422566733,
+    "Time_Train_Batch": 0.004234302043914795
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 38 Memory Usage: 1909 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 226.45it/s] 47%|####6     | 47/100 [00:00<00:00, 230.71it/s] 71%|#######1  | 71/100 [00:00<00:00, 234.84it/s] 95%|#########5| 95/100 [00:00<00:00, 230.95it/s]100%|##########| 100/100 [00:00<00:00, 230.31it/s]
+Train Epoch 39
+{
+    "Cosine_Loss": 0.2560175311565399,
+    "L1_Loss": 0.019187804283574222,
+    "L2_Loss": 0.03966447429731488,
+    "Loss": 0.03966447429731488,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.20243755437870278,
+    "Time_Data_Loading": 0.0010030269622802734,
+    "Time_Epoch": 0.007244054476420085,
+    "Time_Log_Info": 0.001163629690806071,
+    "Time_Process_Batch": 0.0011316657066345215,
+    "Time_Train_Batch": 0.0039278229077657064
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 39 Memory Usage: 1909 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 17%|#7        | 17/100 [00:00<00:00, 167.62it/s] 34%|###4      | 34/100 [00:00<00:00, 157.30it/s] 50%|#####     | 50/100 [00:00<00:00, 155.30it/s] 73%|#######3  | 73/100 [00:00<00:00, 182.47it/s] 97%|#########7| 97/100 [00:00<00:00, 201.78it/s]100%|##########| 100/100 [00:00<00:00, 184.52it/s]
+Train Epoch 40
+{
+    "Cosine_Loss": 0.24822757184505462,
+    "L1_Loss": 0.018580126818269493,
+    "L2_Loss": 0.03825204882770777,
+    "Loss": 0.03825204882770777,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.1717046380415195,
+    "Time_Data_Loading": 0.0010426243146260579,
+    "Time_Epoch": 0.009041468302408854,
+    "Time_Log_Info": 0.0019565502802530925,
+    "Time_Process_Batch": 0.0012426376342773438,
+    "Time_Train_Batch": 0.004778846104939779
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 40 Memory Usage: 1909 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 221.26it/s] 46%|####6     | 46/100 [00:00<00:00, 222.53it/s] 69%|######9   | 69/100 [00:00<00:00, 223.83it/s] 92%|#########2| 92/100 [00:00<00:00, 216.47it/s]100%|##########| 100/100 [00:00<00:00, 211.77it/s]
+Train Epoch 41
+{
+    "Cosine_Loss": 0.24634634882211684,
+    "L1_Loss": 0.01821088111028075,
+    "L2_Loss": 0.037485018093138936,
+    "Loss": 0.037485018093138936,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.15363258476758346,
+    "Time_Data_Loading": 0.0010060707728068033,
+    "Time_Epoch": 0.007877981662750244,
+    "Time_Log_Info": 0.0014401078224182129,
+    "Time_Process_Batch": 0.0011524637540181479,
+    "Time_Train_Batch": 0.004260611534118652
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 41 Memory Usage: 1909 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 150.50it/s] 32%|###2      | 32/100 [00:00<00:00, 148.45it/s] 54%|#####4    | 54/100 [00:00<00:00, 178.15it/s] 78%|#######8  | 78/100 [00:00<00:00, 201.14it/s]100%|##########| 100/100 [00:00<00:00, 196.03it/s]
+Train Epoch 42
+{
+    "Cosine_Loss": 0.25118507832288745,
+    "L1_Loss": 0.018245442835614085,
+    "L2_Loss": 0.03763027520850301,
+    "Loss": 0.03763027520850301,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.17615882218087792,
+    "Time_Data_Loading": 0.0010125954945882161,
+    "Time_Epoch": 0.008509488900502522,
+    "Time_Log_Info": 0.001720094680786133,
+    "Time_Process_Batch": 0.0011992454528808594,
+    "Time_Train_Batch": 0.004559743404388428
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 42 Memory Usage: 1910 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 212.01it/s] 44%|####4     | 44/100 [00:00<00:00, 212.72it/s] 67%|######7   | 67/100 [00:00<00:00, 220.44it/s] 90%|######### | 90/100 [00:00<00:00, 207.15it/s]100%|##########| 100/100 [00:00<00:00, 202.88it/s]
+Train Epoch 43
+{
+    "Cosine_Loss": 0.25291880398988725,
+    "L1_Loss": 0.018479751218110324,
+    "L2_Loss": 0.03810900961980224,
+    "Loss": 0.03810900961980224,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.1811356730163243,
+    "Time_Data_Loading": 0.0010333577791849771,
+    "Time_Epoch": 0.008222182591756185,
+    "Time_Log_Info": 0.0015478889147440592,
+    "Time_Process_Batch": 0.001161654790242513,
+    "Time_Train_Batch": 0.00446090300877889
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 43 Memory Usage: 1910 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 152.91it/s] 32%|###2      | 32/100 [00:00<00:00, 152.65it/s] 55%|#####5    | 55/100 [00:00<00:00, 185.99it/s] 80%|########  | 80/100 [00:00<00:00, 207.69it/s]100%|##########| 100/100 [00:00<00:00, 201.09it/s]
+Train Epoch 44
+{
+    "Cosine_Loss": 0.24552889853715898,
+    "L1_Loss": 0.01804342184215784,
+    "L2_Loss": 0.03707711013033986,
+    "Loss": 0.03707711013033986,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.17712813558749985,
+    "Time_Data_Loading": 0.0010083754857381185,
+    "Time_Epoch": 0.008295933405558268,
+    "Time_Log_Info": 0.0017251173655192058,
+    "Time_Process_Batch": 0.0012117664019266764,
+    "Time_Train_Batch": 0.004333066940307617
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 44 Memory Usage: 1910 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 218.88it/s] 46%|####6     | 46/100 [00:00<00:00, 230.64it/s] 70%|#######   | 70/100 [00:00<00:00, 234.36it/s] 94%|#########3| 94/100 [00:00<00:00, 203.65it/s]100%|##########| 100/100 [00:00<00:00, 207.40it/s]
+Train Epoch 45
+{
+    "Cosine_Loss": 0.2508938257396221,
+    "L1_Loss": 0.018518529245629908,
+    "L2_Loss": 0.03821475218981504,
+    "Loss": 0.03821475218981504,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.21267565552770976,
+    "Time_Data_Loading": 0.0010097662607828775,
+    "Time_Epoch": 0.008043436209360759,
+    "Time_Log_Info": 0.001547714074452718,
+    "Time_Process_Batch": 0.0011713544527689615,
+    "Time_Train_Batch": 0.0042960802714029946
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 45 Memory Usage: 1910 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 153.34it/s] 37%|###7      | 37/100 [00:00<00:00, 185.31it/s] 59%|#####8    | 59/100 [00:00<00:00, 200.85it/s] 83%|########2 | 83/100 [00:00<00:00, 215.87it/s]100%|##########| 100/100 [00:00<00:00, 209.96it/s]
+Train Epoch 46
+{
+    "Cosine_Loss": 0.24306085765361785,
+    "L1_Loss": 0.018118655886501075,
+    "L2_Loss": 0.03733185030519962,
+    "Loss": 0.03733185030519962,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.1958599531393338,
+    "Time_Data_Loading": 0.0009964426358540853,
+    "Time_Epoch": 0.007945418357849121,
+    "Time_Log_Info": 0.0015041629473368328,
+    "Time_Process_Batch": 0.0011550466219584147,
+    "Time_Train_Batch": 0.0042722066243489586
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 46 Memory Usage: 1910 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 222.58it/s] 48%|####8     | 48/100 [00:00<00:00, 234.04it/s] 73%|#######3  | 73/100 [00:00<00:00, 237.54it/s] 97%|#########7| 97/100 [00:00<00:00, 210.81it/s]100%|##########| 100/100 [00:00<00:00, 214.96it/s]
+Train Epoch 47
+{
+    "Cosine_Loss": 0.2411228159070015,
+    "L1_Loss": 0.018145667193457483,
+    "L2_Loss": 0.0375184921361506,
+    "Loss": 0.0375184921361506,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.17812189720403693,
+    "Time_Data_Loading": 0.001007250944773356,
+    "Time_Epoch": 0.007761033376057943,
+    "Time_Log_Info": 0.0013857722282409669,
+    "Time_Process_Batch": 0.0011670430501302083,
+    "Time_Train_Batch": 0.0041833122571309405
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 47 Memory Usage: 1911 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 15%|#5        | 15/100 [00:00<00:00, 147.49it/s] 30%|###       | 30/100 [00:00<00:00, 147.51it/s] 49%|####9     | 49/100 [00:00<00:00, 165.54it/s] 73%|#######3  | 73/100 [00:00<00:00, 194.59it/s] 97%|#########7| 97/100 [00:00<00:00, 210.30it/s]100%|##########| 100/100 [00:00<00:00, 192.83it/s]
+Train Epoch 48
+{
+    "Cosine_Loss": 0.24461092323064804,
+    "L1_Loss": 0.01823790801689029,
+    "L2_Loss": 0.037635438032448294,
+    "Loss": 0.037635438032448294,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.19184399762954854,
+    "Time_Data_Loading": 0.0010142048199971517,
+    "Time_Epoch": 0.008650445938110351,
+    "Time_Log_Info": 0.0018069704373677572,
+    "Time_Process_Batch": 0.0011794169743855794,
+    "Time_Train_Batch": 0.004630172252655029
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 48 Memory Usage: 1911 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 206.93it/s] 45%|####5     | 45/100 [00:00<00:00, 217.70it/s] 67%|######7   | 67/100 [00:00<00:00, 207.69it/s] 88%|########8 | 88/100 [00:00<00:00, 179.25it/s]100%|##########| 100/100 [00:00<00:00, 182.97it/s]
+Train Epoch 49
+{
+    "Cosine_Loss": 0.24324664175510408,
+    "L1_Loss": 0.018027274319902063,
+    "L2_Loss": 0.03719322981312871,
+    "Loss": 0.03719322981312871,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.20270027970866067,
+    "Time_Data_Loading": 0.0010979930559794108,
+    "Time_Epoch": 0.009116903940836588,
+    "Time_Log_Info": 0.0017673095067342122,
+    "Time_Process_Batch": 0.0012694199879964192,
+    "Time_Train_Batch": 0.0049618840217590336
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 49 Memory Usage: 1911 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 15%|#5        | 15/100 [00:00<00:00, 142.24it/s] 30%|###       | 30/100 [00:00<00:00, 146.48it/s] 51%|#####1    | 51/100 [00:00<00:00, 174.96it/s] 74%|#######4  | 74/100 [00:00<00:00, 194.73it/s] 99%|#########9| 99/100 [00:00<00:00, 212.14it/s]100%|##########| 100/100 [00:00<00:00, 194.02it/s]
+Train Epoch 50
+{
+    "Cosine_Loss": 0.24054641738533974,
+    "L1_Loss": 0.017856283811852336,
+    "L2_Loss": 0.03684170350432396,
+    "Loss": 0.03684170350432396,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.1668964653191142,
+    "Time_Data_Loading": 0.0010436654090881347,
+    "Time_Epoch": 0.008597747484842936,
+    "Time_Log_Info": 0.0017552614212036134,
+    "Time_Process_Batch": 0.0012028972307840983,
+    "Time_Train_Batch": 0.004575411478678386
+}
+video writes to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/videos/low_dim_v15_epoch_50.mp4
+rollout: env=NutAssemblySquare, horizon=400, use_goals=False, num_episodes=50
+  0%|          | 0/50 [00:00<?, ?it/s]ObservationKeyToModalityDict: robot0_joint_pos not found, adding robot0_joint_pos to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_joint_pos_cos not found, adding robot0_joint_pos_cos to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_joint_pos_sin not found, adding robot0_joint_pos_sin to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_joint_vel not found, adding robot0_joint_vel to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_eef_quat_site not found, adding robot0_eef_quat_site to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: robot0_gripper_qvel not found, adding robot0_gripper_qvel to mapping with assumed low_dim modality!
+ObservationKeyToModalityDict: lang_emb not found, adding lang_emb to mapping with assumed low_dim modality!
+  2%|2         | 1/50 [00:04<03:48,  4.67s/it]  4%|4         | 2/50 [00:08<03:24,  4.26s/it]  6%|6         | 3/50 [00:12<03:10,  4.06s/it]  8%|8         | 4/50 [00:16<03:04,  4.00s/it] 10%|#         | 5/50 [00:20<02:56,  3.93s/it] 12%|#2        | 6/50 [00:24<02:52,  3.91s/it] 14%|#4        | 7/50 [00:27<02:46,  3.88s/it] 16%|#6        | 8/50 [00:31<02:43,  3.90s/it] 18%|#8        | 9/50 [00:35<02:39,  3.90s/it] 20%|##        | 10/50 [00:39<02:38,  3.96s/it] 22%|##2       | 11/50 [00:43<02:37,  4.03s/it] 24%|##4       | 12/50 [00:47<02:29,  3.95s/it] 26%|##6       | 13/50 [00:51<02:24,  3.90s/it] 28%|##8       | 14/50 [00:55<02:18,  3.85s/it] 30%|###       | 15/50 [00:59<02:14,  3.84s/it] 32%|###2      | 16/50 [01:03<02:12,  3.89s/it] 34%|###4      | 17/50 [01:07<02:08,  3.90s/it] 36%|###6      | 18/50 [01:11<02:06,  3.96s/it] 38%|###8      | 19/50 [01:15<02:03,  3.98s/it] 40%|####      | 20/50 [01:19<01:58,  3.96s/it] 42%|####2     | 21/50 [01:23<01:55,  3.97s/it] 44%|####4     | 22/50 [01:26<01:50,  3.94s/it] 46%|####6     | 23/50 [01:30<01:45,  3.91s/it] 48%|####8     | 24/50 [01:34<01:40,  3.87s/it] 50%|#####     | 25/50 [01:38<01:36,  3.87s/it] 52%|#####2    | 26/50 [01:42<01:33,  3.92s/it] 54%|#####4    | 27/50 [01:46<01:29,  3.87s/it] 56%|#####6    | 28/50 [01:50<01:25,  3.87s/it] 58%|#####8    | 29/50 [01:53<01:21,  3.87s/it] 60%|######    | 30/50 [01:57<01:12,  3.63s/it] 62%|######2   | 31/50 [02:01<01:11,  3.78s/it] 64%|######4   | 32/50 [02:05<01:10,  3.90s/it] 66%|######6   | 33/50 [02:09<01:05,  3.86s/it] 68%|######8   | 34/50 [02:12<01:01,  3.86s/it] 70%|#######   | 35/50 [02:16<00:58,  3.91s/it] 72%|#######2  | 36/50 [02:20<00:54,  3.92s/it] 74%|#######4  | 37/50 [02:24<00:50,  3.90s/it] 76%|#######6  | 38/50 [02:28<00:47,  3.99s/it] 78%|#######8  | 39/50 [02:32<00:43,  3.94s/it] 80%|########  | 40/50 [02:36<00:38,  3.90s/it] 82%|########2 | 41/50 [02:40<00:34,  3.85s/it] 84%|########4 | 42/50 [02:44<00:31,  3.94s/it] 86%|########6 | 43/50 [02:48<00:27,  3.89s/it] 88%|########8 | 44/50 [02:52<00:23,  3.88s/it] 90%|######### | 45/50 [02:55<00:19,  3.87s/it] 92%|#########2| 46/50 [02:59<00:15,  3.82s/it] 94%|#########3| 47/50 [03:03<00:11,  3.80s/it] 96%|#########6| 48/50 [03:07<00:07,  3.81s/it] 98%|#########8| 49/50 [03:11<00:03,  3.89s/it]100%|##########| 50/50 [03:15<00:00,  3.92s/it]100%|##########| 50/50 [03:15<00:00,  3.91s/it]
+
+Epoch 50 Rollouts took 3.9065706825256346s (avg) with results:
+Env: low_dim_v15
+{
+    "Horizon": 398.32,
+    "Return": 0.02,
+    "Success_Rate": 0.02,
+    "Time_Episode": 3.255475568771362,
+    "time": 3.9065706825256346
+}
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/models/model_epoch_50_low_dim_v15_success_0.02.pth
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 50 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 13%|#3        | 13/100 [00:00<00:00, 127.32it/s] 27%|##7       | 27/100 [00:00<00:00, 132.55it/s] 43%|####3     | 43/100 [00:00<00:00, 144.39it/s] 64%|######4   | 64/100 [00:00<00:00, 166.58it/s] 83%|########2 | 83/100 [00:00<00:00, 173.44it/s]100%|##########| 100/100 [00:00<00:00, 167.25it/s]
+Train Epoch 51
+{
+    "Cosine_Loss": 0.23786987096071244,
+    "L1_Loss": 0.01778176407329738,
+    "L2_Loss": 0.036707546338438986,
+    "Loss": 0.036707546338438986,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.18655908663437004,
+    "Time_Data_Loading": 0.0011831124623616536,
+    "Time_Epoch": 0.009974610805511475,
+    "Time_Log_Info": 0.002121607462565104,
+    "Time_Process_Batch": 0.0013586084047953288,
+    "Time_Train_Batch": 0.005285950501759847
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 51 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 196.10it/s] 42%|####2     | 42/100 [00:00<00:00, 206.26it/s] 63%|######3   | 63/100 [00:00<00:00, 175.72it/s] 82%|########2 | 82/100 [00:00<00:00, 175.23it/s]100%|##########| 100/100 [00:00<00:00, 183.36it/s]
+Train Epoch 52
+{
+    "Cosine_Loss": 0.23991168513894082,
+    "L1_Loss": 0.01729745727032423,
+    "L2_Loss": 0.03567540617659688,
+    "Loss": 0.03567540617659688,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.15597473360154254,
+    "Time_Data_Loading": 0.0011223951975504558,
+    "Time_Epoch": 0.009100647767384847,
+    "Time_Log_Info": 0.0017485499382019043,
+    "Time_Process_Batch": 0.0012549440066019694,
+    "Time_Train_Batch": 0.004950753847757975
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 52 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 153.14it/s] 35%|###5      | 35/100 [00:00<00:00, 173.87it/s] 53%|#####3    | 53/100 [00:00<00:00, 175.64it/s] 72%|#######2  | 72/100 [00:00<00:00, 179.80it/s] 93%|#########3| 93/100 [00:00<00:00, 189.79it/s]100%|##########| 100/100 [00:00<00:00, 183.79it/s]
+Train Epoch 53
+{
+    "Cosine_Loss": 0.23601459980010986,
+    "L1_Loss": 0.017418772196397186,
+    "L2_Loss": 0.036033898796886205,
+    "Loss": 0.036033898796886205,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2094607991994053,
+    "Time_Data_Loading": 0.001159369945526123,
+    "Time_Epoch": 0.009076484044392904,
+    "Time_Log_Info": 0.001524213949839274,
+    "Time_Process_Batch": 0.0013073086738586426,
+    "Time_Train_Batch": 0.005059786637624105
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 53 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 201.40it/s] 42%|####2     | 42/100 [00:00<00:00, 173.06it/s] 60%|######    | 60/100 [00:00<00:00, 162.32it/s] 77%|#######7  | 77/100 [00:00<00:00, 157.73it/s]100%|##########| 100/100 [00:00<00:00, 178.73it/s]100%|##########| 100/100 [00:00<00:00, 173.78it/s]
+Train Epoch 54
+{
+    "Cosine_Loss": 0.24647002801299095,
+    "L1_Loss": 0.018055803347378968,
+    "L2_Loss": 0.037475787568837404,
+    "Loss": 0.037475787568837404,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.25449840669072726,
+    "Time_Data_Loading": 0.0011308987935384114,
+    "Time_Epoch": 0.00959791342417399,
+    "Time_Log_Info": 0.0020868778228759766,
+    "Time_Process_Batch": 0.001249551773071289,
+    "Time_Train_Batch": 0.005108968416849772
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 54 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 217.07it/s] 44%|####4     | 44/100 [00:00<00:00, 217.79it/s] 68%|######8   | 68/100 [00:00<00:00, 223.96it/s] 91%|#########1| 91/100 [00:00<00:00, 224.79it/s]100%|##########| 100/100 [00:00<00:00, 224.89it/s]
+Train Epoch 55
+{
+    "Cosine_Loss": 0.24264604851603508,
+    "L1_Loss": 0.017675024382770063,
+    "L2_Loss": 0.03675646737217903,
+    "Loss": 0.03675646737217903,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.17954680797900438,
+    "Time_Data_Loading": 0.0010045925776163737,
+    "Time_Epoch": 0.0074197332064310706,
+    "Time_Log_Info": 0.001326290766398112,
+    "Time_Process_Batch": 0.0011482675870259603,
+    "Time_Train_Batch": 0.003921719392140707
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 55 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 206.23it/s] 42%|####2     | 42/100 [00:00<00:00, 195.67it/s] 62%|######2   | 62/100 [00:00<00:00, 176.43it/s] 85%|########5 | 85/100 [00:00<00:00, 192.47it/s]100%|##########| 100/100 [00:00<00:00, 195.69it/s]
+Train Epoch 56
+{
+    "Cosine_Loss": 0.23646225795149803,
+    "L1_Loss": 0.017445913208648564,
+    "L2_Loss": 0.03607143010944128,
+    "Loss": 0.03607143010944128,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.18070829204482833,
+    "Time_Data_Loading": 0.0010744770367940267,
+    "Time_Epoch": 0.008527870972951252,
+    "Time_Log_Info": 0.0016926368077596029,
+    "Time_Process_Batch": 0.0011525114377339682,
+    "Time_Train_Batch": 0.00458601713180542
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 56 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 227.78it/s] 48%|####8     | 48/100 [00:00<00:00, 236.40it/s] 72%|#######2  | 72/100 [00:00<00:00, 228.20it/s] 97%|#########7| 97/100 [00:00<00:00, 232.71it/s]100%|##########| 100/100 [00:00<00:00, 228.87it/s]
+Train Epoch 57
+{
+    "Cosine_Loss": 0.23931035175919532,
+    "L1_Loss": 0.01669706977903843,
+    "L2_Loss": 0.03439876817166805,
+    "Loss": 0.03439876817166805,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.16633742733854887,
+    "Time_Data_Loading": 0.001008172829945882,
+    "Time_Epoch": 0.007290764649709066,
+    "Time_Log_Info": 0.00123063325881958,
+    "Time_Process_Batch": 0.0011460582415262859,
+    "Time_Train_Batch": 0.0038865129152933758
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 57 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 178.68it/s] 36%|###6      | 36/100 [00:00<00:00, 158.89it/s] 53%|#####3    | 53/100 [00:00<00:00, 160.39it/s] 70%|#######   | 70/100 [00:00<00:00, 157.45it/s] 91%|#########1| 91/100 [00:00<00:00, 173.83it/s]100%|##########| 100/100 [00:00<00:00, 170.26it/s]
+Train Epoch 58
+{
+    "Cosine_Loss": 0.23651263147592544,
+    "L1_Loss": 0.01751386418007314,
+    "L2_Loss": 0.03623167773708701,
+    "Loss": 0.03623167773708701,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.21924462631239294,
+    "Time_Data_Loading": 0.0011458277702331543,
+    "Time_Epoch": 0.009797314802805582,
+    "Time_Log_Info": 0.002148600419362386,
+    "Time_Process_Batch": 0.0012612620989481608,
+    "Time_Train_Batch": 0.005216534932454427
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 58 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 213.26it/s] 44%|####4     | 44/100 [00:00<00:00, 214.68it/s] 67%|######7   | 67/100 [00:00<00:00, 220.65it/s] 90%|######### | 90/100 [00:00<00:00, 210.42it/s]100%|##########| 100/100 [00:00<00:00, 209.58it/s]
+Train Epoch 59
+{
+    "Cosine_Loss": 0.2326680001616478,
+    "L1_Loss": 0.0173159125354141,
+    "L2_Loss": 0.03587074654176831,
+    "Loss": 0.03587074654176831,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.23706045792661826,
+    "Time_Data_Loading": 0.001042640209197998,
+    "Time_Epoch": 0.007961746056874592,
+    "Time_Log_Info": 0.0014297604560852052,
+    "Time_Process_Batch": 0.0011777162551879882,
+    "Time_Train_Batch": 0.004290723800659179
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 59 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 15%|#5        | 15/100 [00:00<00:00, 142.79it/s] 31%|###1      | 31/100 [00:00<00:00, 147.27it/s] 46%|####6     | 46/100 [00:00<00:00, 147.16it/s] 63%|######3   | 63/100 [00:00<00:00, 155.04it/s] 83%|########2 | 83/100 [00:00<00:00, 170.35it/s]100%|##########| 100/100 [00:00<00:00, 165.92it/s]
+Train Epoch 60
+{
+    "Cosine_Loss": 0.23963400855660438,
+    "L1_Loss": 0.017162142116576434,
+    "L2_Loss": 0.035542547311633824,
+    "Loss": 0.035542547311633824,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.17946290964515355,
+    "Time_Data_Loading": 0.0011603673299153646,
+    "Time_Epoch": 0.01005725065867106,
+    "Time_Log_Info": 0.002144165833791097,
+    "Time_Process_Batch": 0.0013154506683349609,
+    "Time_Train_Batch": 0.005409268538157145
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 60 Memory Usage: 5340 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 193.09it/s] 44%|####4     | 44/100 [00:00<00:00, 215.28it/s] 66%|######6   | 66/100 [00:00<00:00, 209.86it/s] 87%|########7 | 87/100 [00:00<00:00, 199.12it/s]100%|##########| 100/100 [00:00<00:00, 195.10it/s]
+Train Epoch 61
+{
+    "Cosine_Loss": 0.23518972024321555,
+    "L1_Loss": 0.016970770759508015,
+    "L2_Loss": 0.035339530743658545,
+    "Loss": 0.035339530743658545,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.22773119507663067,
+    "Time_Data_Loading": 0.001072831948598226,
+    "Time_Epoch": 0.008553099632263184,
+    "Time_Log_Info": 0.0016817331314086914,
+    "Time_Process_Batch": 0.001168374220530192,
+    "Time_Train_Batch": 0.0046076099077860515
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 61 Memory Usage: 5341 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 15%|#5        | 15/100 [00:00<00:00, 147.28it/s] 31%|###1      | 31/100 [00:00<00:00, 150.79it/s] 54%|#####4    | 54/100 [00:00<00:00, 184.80it/s] 77%|#######7  | 77/100 [00:00<00:00, 201.54it/s]100%|##########| 100/100 [00:00<00:00, 211.16it/s]100%|##########| 100/100 [00:00<00:00, 196.09it/s]
+Train Epoch 62
+{
+    "Cosine_Loss": 0.22764141693711282,
+    "L1_Loss": 0.0168263026047498,
+    "L2_Loss": 0.03485238455235958,
+    "Loss": 0.03485238455235958,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.16839336464065127,
+    "Time_Data_Loading": 0.0010242184003194173,
+    "Time_Epoch": 0.008506866296132405,
+    "Time_Log_Info": 0.0017792264620463054,
+    "Time_Process_Batch": 0.0012021342913309733,
+    "Time_Train_Batch": 0.004481716950734457
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 62 Memory Usage: 5341 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 211.51it/s] 45%|####5     | 45/100 [00:00<00:00, 218.30it/s] 67%|######7   | 67/100 [00:00<00:00, 218.93it/s] 89%|########9 | 89/100 [00:00<00:00, 190.47it/s]100%|##########| 100/100 [00:00<00:00, 194.37it/s]
+Train Epoch 63
+{
+    "Cosine_Loss": 0.2387292629480362,
+    "L1_Loss": 0.0170099223125726,
+    "L2_Loss": 0.03506097672507167,
+    "Loss": 0.03506097672507167,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.23699634273676565,
+    "Time_Data_Loading": 0.0010654091835021972,
+    "Time_Epoch": 0.008583347002665201,
+    "Time_Log_Info": 0.0017565568288167319,
+    "Time_Process_Batch": 0.0011648058891296387,
+    "Time_Train_Batch": 0.004575451215108235
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 63 Memory Usage: 5341 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 15%|#5        | 15/100 [00:00<00:00, 148.73it/s] 36%|###6      | 36/100 [00:00<00:00, 183.33it/s] 59%|#####8    | 59/100 [00:00<00:00, 203.69it/s] 84%|########4 | 84/100 [00:00<00:00, 216.45it/s]100%|##########| 100/100 [00:00<00:00, 209.11it/s]
+Train Epoch 64
+{
+    "Cosine_Loss": 0.23186378046870232,
+    "L1_Loss": 0.016879114331677558,
+    "L2_Loss": 0.035095094386488196,
+    "Loss": 0.035095094386488196,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.18683055985411556,
+    "Time_Data_Loading": 0.001014872392018636,
+    "Time_Epoch": 0.007978332042694092,
+    "Time_Log_Info": 0.0015711307525634766,
+    "Time_Process_Batch": 0.0011842131614685058,
+    "Time_Train_Batch": 0.00419003168741862
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 64 Memory Usage: 5341 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 208.88it/s] 44%|####4     | 44/100 [00:00<00:00, 219.26it/s] 66%|######6   | 66/100 [00:00<00:00, 210.61it/s] 88%|########8 | 88/100 [00:00<00:00, 202.33it/s]100%|##########| 100/100 [00:00<00:00, 206.10it/s]
+Train Epoch 65
+{
+    "Cosine_Loss": 0.2396520632505417,
+    "L1_Loss": 0.017294125221669673,
+    "L2_Loss": 0.035908378288149835,
+    "Loss": 0.035908378288149835,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.24553206170152408,
+    "Time_Data_Loading": 0.0010597705841064453,
+    "Time_Epoch": 0.008095069726308187,
+    "Time_Log_Info": 0.0015385866165161133,
+    "Time_Process_Batch": 0.0011488874753316245,
+    "Time_Train_Batch": 0.004328572750091552
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 65 Memory Usage: 5341 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 152.30it/s] 38%|###8      | 38/100 [00:00<00:00, 188.79it/s] 62%|######2   | 62/100 [00:00<00:00, 208.60it/s] 86%|########6 | 86/100 [00:00<00:00, 217.27it/s]100%|##########| 100/100 [00:00<00:00, 211.36it/s]
+Train Epoch 66
+{
+    "Cosine_Loss": 0.23921909779310227,
+    "L1_Loss": 0.016728472812101245,
+    "L2_Loss": 0.0345457967184484,
+    "Loss": 0.0345457967184484,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.23430032933174516,
+    "Time_Data_Loading": 0.0010105450948079428,
+    "Time_Epoch": 0.007893613974253337,
+    "Time_Log_Info": 0.0015444119771321615,
+    "Time_Process_Batch": 0.0011521379152933757,
+    "Time_Train_Batch": 0.004168113072713216
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 66 Memory Usage: 5342 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 206.44it/s] 44%|####4     | 44/100 [00:00<00:00, 216.47it/s] 66%|######6   | 66/100 [00:00<00:00, 212.23it/s] 88%|########8 | 88/100 [00:00<00:00, 187.00it/s]100%|##########| 100/100 [00:00<00:00, 189.63it/s]
+Train Epoch 67
+{
+    "Cosine_Loss": 0.2349126599729061,
+    "L1_Loss": 0.016530163772404193,
+    "L2_Loss": 0.03409525007009506,
+    "Loss": 0.03409525007009506,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.18797561321465764,
+    "Time_Data_Loading": 0.001072533925374349,
+    "Time_Epoch": 0.008797764778137207,
+    "Time_Log_Info": 0.0018201589584350586,
+    "Time_Process_Batch": 0.0012183984120686848,
+    "Time_Train_Batch": 0.00466609001159668
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 67 Memory Usage: 5342 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 14%|#4        | 14/100 [00:00<00:00, 138.70it/s] 33%|###3      | 33/100 [00:00<00:00, 166.46it/s] 56%|#####6    | 56/100 [00:00<00:00, 192.69it/s] 77%|#######7  | 77/100 [00:00<00:00, 195.75it/s] 97%|#########7| 97/100 [00:00<00:00, 194.53it/s]100%|##########| 100/100 [00:00<00:00, 189.23it/s]
+Train Epoch 68
+{
+    "Cosine_Loss": 0.24295440644025804,
+    "L1_Loss": 0.016975979739800095,
+    "L2_Loss": 0.03515387600287795,
+    "Loss": 0.03515387600287795,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2727271737700721,
+    "Time_Data_Loading": 0.001115119457244873,
+    "Time_Epoch": 0.008815864721934,
+    "Time_Log_Info": 0.001644301414489746,
+    "Time_Process_Batch": 0.0012696345647176107,
+    "Time_Train_Batch": 0.004763666788736979
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 68 Memory Usage: 5342 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 205.82it/s] 44%|####4     | 44/100 [00:00<00:00, 217.95it/s] 66%|######6   | 66/100 [00:00<00:00, 186.46it/s] 86%|########6 | 86/100 [00:00<00:00, 172.36it/s]100%|##########| 100/100 [00:00<00:00, 176.62it/s]
+Train Epoch 69
+{
+    "Cosine_Loss": 0.232820575684309,
+    "L1_Loss": 0.01657603961415589,
+    "L2_Loss": 0.034208051431924104,
+    "Loss": 0.034208051431924104,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.18144003945377335,
+    "Time_Data_Loading": 0.0011051098505655925,
+    "Time_Epoch": 0.009444634119669596,
+    "Time_Log_Info": 0.0021013975143432616,
+    "Time_Process_Batch": 0.0012013991673787436,
+    "Time_Train_Batch": 0.0050152897834777836
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 69 Memory Usage: 5342 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 226.85it/s] 46%|####6     | 46/100 [00:00<00:00, 214.52it/s] 68%|######8   | 68/100 [00:00<00:00, 209.40it/s] 92%|#########2| 92/100 [00:00<00:00, 216.57it/s]100%|##########| 100/100 [00:00<00:00, 214.74it/s]
+Train Epoch 70
+{
+    "Cosine_Loss": 0.2331739693880081,
+    "L1_Loss": 0.016572108697146176,
+    "L2_Loss": 0.03435683224350214,
+    "Loss": 0.03435683224350214,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.20969185040028607,
+    "Time_Data_Loading": 0.001045544942220052,
+    "Time_Epoch": 0.007769334316253662,
+    "Time_Log_Info": 0.001365057627360026,
+    "Time_Process_Batch": 0.0011717915534973145,
+    "Time_Train_Batch": 0.0041681408882141115
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 70 Memory Usage: 5342 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 215.92it/s] 44%|####4     | 44/100 [00:00<00:00, 198.05it/s] 64%|######4   | 64/100 [00:00<00:00, 187.72it/s] 86%|########6 | 86/100 [00:00<00:00, 196.06it/s]100%|##########| 100/100 [00:00<00:00, 195.39it/s]
+Train Epoch 71
+{
+    "Cosine_Loss": 0.23474499121308326,
+    "L1_Loss": 0.016720394203439355,
+    "L2_Loss": 0.03465536607429385,
+    "Loss": 0.03465536607429385,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2590671458040197,
+    "Time_Data_Loading": 0.0010715166727701822,
+    "Time_Epoch": 0.008538782596588135,
+    "Time_Log_Info": 0.0017390131950378418,
+    "Time_Process_Batch": 0.0011500676472981771,
+    "Time_Train_Batch": 0.004558304945627849
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 71 Memory Usage: 5342 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 203.31it/s] 44%|####4     | 44/100 [00:00<00:00, 218.53it/s] 68%|######8   | 68/100 [00:00<00:00, 225.49it/s] 91%|#########1| 91/100 [00:00<00:00, 225.75it/s]100%|##########| 100/100 [00:00<00:00, 219.86it/s]
+Train Epoch 72
+{
+    "Cosine_Loss": 0.24028675943613054,
+    "L1_Loss": 0.01705098256468773,
+    "L2_Loss": 0.03547045068815351,
+    "Loss": 0.03547045068815351,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2532362717705473,
+    "Time_Data_Loading": 0.0010080774625142416,
+    "Time_Epoch": 0.007590933640797933,
+    "Time_Log_Info": 0.0013964295387268067,
+    "Time_Process_Batch": 0.0011521021525065104,
+    "Time_Train_Batch": 0.004013554255167643
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 72 Memory Usage: 5343 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 222.19it/s] 46%|####6     | 46/100 [00:00<00:00, 192.69it/s] 66%|######6   | 66/100 [00:00<00:00, 178.46it/s] 86%|########6 | 86/100 [00:00<00:00, 183.42it/s]100%|##########| 100/100 [00:00<00:00, 190.32it/s]
+Train Epoch 73
+{
+    "Cosine_Loss": 0.23461403384804724,
+    "L1_Loss": 0.016514748465269805,
+    "L2_Loss": 0.034242145121097564,
+    "Loss": 0.034242145121097564,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.19120845439863843,
+    "Time_Data_Loading": 0.0010568618774414063,
+    "Time_Epoch": 0.008765598138173422,
+    "Time_Log_Info": 0.001865990956624349,
+    "Time_Process_Batch": 0.001170480251312256,
+    "Time_Train_Batch": 0.004652953147888184
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 73 Memory Usage: 5343 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 219.94it/s] 45%|####5     | 45/100 [00:00<00:00, 225.71it/s] 69%|######9   | 69/100 [00:00<00:00, 230.91it/s] 93%|#########3| 93/100 [00:00<00:00, 231.94it/s]100%|##########| 100/100 [00:00<00:00, 225.98it/s]
+Train Epoch 74
+{
+    "Cosine_Loss": 0.23225550964474678,
+    "L1_Loss": 0.016596414241939784,
+    "L2_Loss": 0.0344852009601891,
+    "Loss": 0.0344852009601891,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2401423034741856,
+    "Time_Data_Loading": 0.0010114073753356933,
+    "Time_Epoch": 0.00738361676534017,
+    "Time_Log_Info": 0.0012398401896158854,
+    "Time_Process_Batch": 0.0011379559834798177,
+    "Time_Train_Batch": 0.003975315888722738
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 74 Memory Usage: 5343 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 213.09it/s] 44%|####4     | 44/100 [00:00<00:00, 182.48it/s] 63%|######3   | 63/100 [00:00<00:00, 171.13it/s] 81%|########1 | 81/100 [00:00<00:00, 166.78it/s]100%|##########| 100/100 [00:00<00:00, 179.60it/s]
+Train Epoch 75
+{
+    "Cosine_Loss": 0.23330775916576385,
+    "L1_Loss": 0.01666045513935387,
+    "L2_Loss": 0.034558281768113375,
+    "Loss": 0.034558281768113375,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.18680561633223988,
+    "Time_Data_Loading": 0.0010938286781311036,
+    "Time_Epoch": 0.009288481871287028,
+    "Time_Log_Info": 0.0019946654637654623,
+    "Time_Process_Batch": 0.00121460755666097,
+    "Time_Train_Batch": 0.004965392748514811
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 75 Memory Usage: 5343 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 221.28it/s] 46%|####6     | 46/100 [00:00<00:00, 224.45it/s] 69%|######9   | 69/100 [00:00<00:00, 224.46it/s] 92%|#########2| 92/100 [00:00<00:00, 224.76it/s]100%|##########| 100/100 [00:00<00:00, 222.11it/s]
+Train Epoch 76
+{
+    "Cosine_Loss": 0.23192856714129448,
+    "L1_Loss": 0.016541333254426718,
+    "L2_Loss": 0.03429042289033532,
+    "Loss": 0.03429042289033532,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.1894011254502402,
+    "Time_Data_Loading": 0.0010305205980936686,
+    "Time_Epoch": 0.007513888676961263,
+    "Time_Log_Info": 0.0013108332951863608,
+    "Time_Process_Batch": 0.0011285503705342611,
+    "Time_Train_Batch": 0.004023202260335286
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 76 Memory Usage: 5343 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 209.10it/s] 43%|####3     | 43/100 [00:00<00:00, 176.98it/s] 65%|######5   | 65/100 [00:00<00:00, 190.76it/s] 85%|########5 | 85/100 [00:00<00:00, 183.38it/s]100%|##########| 100/100 [00:00<00:00, 190.98it/s]
+Train Epoch 77
+{
+    "Cosine_Loss": 0.23409106478095054,
+    "L1_Loss": 0.016514499997720124,
+    "L2_Loss": 0.03433820279315114,
+    "Loss": 0.03433820279315114,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2469653567464411,
+    "Time_Data_Loading": 0.0010845502217610677,
+    "Time_Epoch": 0.008737448851267498,
+    "Time_Log_Info": 0.0018490076065063477,
+    "Time_Process_Batch": 0.0011616071065266927,
+    "Time_Train_Batch": 0.00461962620417277
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 77 Memory Usage: 5344 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 189.92it/s] 39%|###9      | 39/100 [00:00<00:00, 191.38it/s] 61%|######1   | 61/100 [00:00<00:00, 203.92it/s] 84%|########4 | 84/100 [00:00<00:00, 213.32it/s]100%|##########| 100/100 [00:00<00:00, 207.23it/s]
+Train Epoch 78
+{
+    "Cosine_Loss": 0.23024786353111268,
+    "L1_Loss": 0.016669108839705585,
+    "L2_Loss": 0.034689808804541825,
+    "Loss": 0.034689808804541825,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2471432125461797,
+    "Time_Data_Loading": 0.0010548830032348633,
+    "Time_Epoch": 0.008050835132598877,
+    "Time_Log_Info": 0.0014595945676167807,
+    "Time_Process_Batch": 0.0011821587880452473,
+    "Time_Train_Batch": 0.004334382216135661
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 78 Memory Usage: 5344 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 182.78it/s] 39%|###9      | 39/100 [00:00<00:00, 189.90it/s] 58%|#####8    | 58/100 [00:00<00:00, 187.67it/s] 77%|#######7  | 77/100 [00:00<00:00, 173.65it/s]100%|##########| 100/100 [00:00<00:00, 188.48it/s]
+Train Epoch 79
+{
+    "Cosine_Loss": 0.22581397980451584,
+    "L1_Loss": 0.01647416069172323,
+    "L2_Loss": 0.03423131074756384,
+    "Loss": 0.03423131074756384,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.19731646969348732,
+    "Time_Data_Loading": 0.001116649309794108,
+    "Time_Epoch": 0.00885167121887207,
+    "Time_Log_Info": 0.0017936944961547852,
+    "Time_Process_Batch": 0.0011795441309611003,
+    "Time_Train_Batch": 0.004741251468658447
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 79 Memory Usage: 5344 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 216.80it/s] 47%|####6     | 47/100 [00:00<00:00, 225.79it/s] 70%|#######   | 70/100 [00:00<00:00, 226.73it/s] 93%|#########3| 93/100 [00:00<00:00, 220.71it/s]100%|##########| 100/100 [00:00<00:00, 220.96it/s]
+Train Epoch 80
+{
+    "Cosine_Loss": 0.22748725280165671,
+    "L1_Loss": 0.016132649695500732,
+    "L2_Loss": 0.03357609262689948,
+    "Loss": 0.03357609262689948,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.20669795079147663,
+    "Time_Data_Loading": 0.0009998758633931479,
+    "Time_Epoch": 0.007551713784535726,
+    "Time_Log_Info": 0.0013779918352762857,
+    "Time_Process_Batch": 0.0011550227801005045,
+    "Time_Train_Batch": 0.004000473022460938
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 80 Memory Usage: 5344 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 204.39it/s] 42%|####2     | 42/100 [00:00<00:00, 197.25it/s] 62%|######2   | 62/100 [00:00<00:00, 175.62it/s] 84%|########4 | 84/100 [00:00<00:00, 189.50it/s]100%|##########| 100/100 [00:00<00:00, 195.33it/s]
+Train Epoch 81
+{
+    "Cosine_Loss": 0.2257056477665901,
+    "L1_Loss": 0.016367467418313027,
+    "L2_Loss": 0.034040641095489266,
+    "Loss": 0.034040641095489266,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.21956639639025524,
+    "Time_Data_Loading": 0.001074544588724772,
+    "Time_Epoch": 0.008541468779246013,
+    "Time_Log_Info": 0.0017488678296407065,
+    "Time_Process_Batch": 0.0011672099431355794,
+    "Time_Train_Batch": 0.004530576864878336
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 81 Memory Usage: 5344 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 22%|##2       | 22/100 [00:00<00:00, 218.12it/s] 46%|####6     | 46/100 [00:00<00:00, 230.46it/s] 70%|#######   | 70/100 [00:00<00:00, 230.02it/s] 94%|#########3| 94/100 [00:00<00:00, 232.82it/s]100%|##########| 100/100 [00:00<00:00, 229.57it/s]
+Train Epoch 82
+{
+    "Cosine_Loss": 0.23270959191024304,
+    "L1_Loss": 0.016827258476987482,
+    "L2_Loss": 0.0350764106027782,
+    "Loss": 0.0350764106027782,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.30701911045493036,
+    "Time_Data_Loading": 0.0010073304176330567,
+    "Time_Epoch": 0.007268019517262777,
+    "Time_Log_Info": 0.0012392520904541016,
+    "Time_Process_Batch": 0.0011234879493713379,
+    "Time_Train_Batch": 0.0038800795873006185
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 82 Memory Usage: 5344 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 180.95it/s] 38%|###8      | 38/100 [00:00<00:00, 170.57it/s] 57%|#####6    | 57/100 [00:00<00:00, 178.91it/s] 75%|#######5  | 75/100 [00:00<00:00, 171.53it/s] 96%|#########6| 96/100 [00:00<00:00, 184.42it/s]100%|##########| 100/100 [00:00<00:00, 181.55it/s]
+Train Epoch 83
+{
+    "Cosine_Loss": 0.22984015479683875,
+    "L1_Loss": 0.016724516348913313,
+    "L2_Loss": 0.034813652466982606,
+    "Loss": 0.034813652466982606,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.25250147346298035,
+    "Time_Data_Loading": 0.0011166969935099283,
+    "Time_Epoch": 0.009188652038574219,
+    "Time_Log_Info": 0.0018487652142842612,
+    "Time_Process_Batch": 0.0012422561645507812,
+    "Time_Train_Batch": 0.004957429567972819
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 83 Memory Usage: 5345 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 20%|##        | 20/100 [00:00<00:00, 198.24it/s] 43%|####3     | 43/100 [00:00<00:00, 216.07it/s] 67%|######7   | 67/100 [00:00<00:00, 224.76it/s] 92%|#########2| 92/100 [00:00<00:00, 232.06it/s]100%|##########| 100/100 [00:00<00:00, 225.31it/s]
+Train Epoch 84
+{
+    "Cosine_Loss": 0.22624125674366952,
+    "L1_Loss": 0.016409176606684922,
+    "L2_Loss": 0.03409215135499835,
+    "Loss": 0.03409215135499835,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.19942792381454638,
+    "Time_Data_Loading": 0.0010168035825093588,
+    "Time_Epoch": 0.0074068148930867515,
+    "Time_Log_Info": 0.0012494603792826335,
+    "Time_Process_Batch": 0.0011287252108256021,
+    "Time_Train_Batch": 0.003991548220316569
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 84 Memory Usage: 5345 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 173.01it/s] 36%|###6      | 36/100 [00:00<00:00, 164.11it/s] 53%|#####3    | 53/100 [00:00<00:00, 159.46it/s] 70%|#######   | 70/100 [00:00<00:00, 163.10it/s] 94%|#########3| 94/100 [00:00<00:00, 188.55it/s]100%|##########| 100/100 [00:00<00:00, 179.25it/s]
+Train Epoch 85
+{
+    "Cosine_Loss": 0.227408217638731,
+    "L1_Loss": 0.016441688453778625,
+    "L2_Loss": 0.03433481264859438,
+    "Loss": 0.03433481264859438,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.20432795106684354,
+    "Time_Data_Loading": 0.0010871251424153646,
+    "Time_Epoch": 0.009307881196339926,
+    "Time_Log_Info": 0.0020829081535339356,
+    "Time_Process_Batch": 0.001198871930440267,
+    "Time_Train_Batch": 0.004915674527486165
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 85 Memory Usage: 5345 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 203.41it/s] 44%|####4     | 44/100 [00:00<00:00, 217.45it/s] 68%|######8   | 68/100 [00:00<00:00, 224.22it/s] 92%|#########2| 92/100 [00:00<00:00, 226.74it/s]100%|##########| 100/100 [00:00<00:00, 223.24it/s]
+Train Epoch 86
+{
+    "Cosine_Loss": 0.22505375728011132,
+    "L1_Loss": 0.01594840726815164,
+    "L2_Loss": 0.03307691479101777,
+    "Loss": 0.03307691479101777,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2217618210117871,
+    "Time_Data_Loading": 0.0010147849718729655,
+    "Time_Epoch": 0.007476703325907389,
+    "Time_Log_Info": 0.0012604037920633951,
+    "Time_Process_Batch": 0.001182834307352702,
+    "Time_Train_Batch": 0.00399703582127889
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 86 Memory Usage: 5345 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 153.83it/s] 33%|###3      | 33/100 [00:00<00:00, 158.58it/s] 49%|####9     | 49/100 [00:00<00:00, 156.43it/s] 69%|######9   | 69/100 [00:00<00:00, 170.65it/s] 94%|#########3| 94/100 [00:00<00:00, 196.23it/s]100%|##########| 100/100 [00:00<00:00, 183.57it/s]
+Train Epoch 87
+{
+    "Cosine_Loss": 0.23470953330397606,
+    "L1_Loss": 0.016310786157846452,
+    "L2_Loss": 0.03380180150270462,
+    "Loss": 0.03380180150270462,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2855316206855605,
+    "Time_Data_Loading": 0.0010687788327534995,
+    "Time_Epoch": 0.009087697664896647,
+    "Time_Log_Info": 0.0020361781120300294,
+    "Time_Process_Batch": 0.001196599006652832,
+    "Time_Train_Batch": 0.004764839013417562
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 87 Memory Usage: 5345 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 221.04it/s] 46%|####6     | 46/100 [00:00<00:00, 211.67it/s] 68%|######8   | 68/100 [00:00<00:00, 205.11it/s] 90%|######### | 90/100 [00:00<00:00, 208.43it/s]100%|##########| 100/100 [00:00<00:00, 200.94it/s]
+Train Epoch 88
+{
+    "Cosine_Loss": 0.23426750496029855,
+    "L1_Loss": 0.01638490680605173,
+    "L2_Loss": 0.03402429165318608,
+    "Loss": 0.03402429165318608,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.26101038043155766,
+    "Time_Data_Loading": 0.0010883212089538574,
+    "Time_Epoch": 0.008302752176920574,
+    "Time_Log_Info": 0.0014772574106852213,
+    "Time_Process_Batch": 0.0011925856272379557,
+    "Time_Train_Batch": 0.004523817698160807
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 88 Memory Usage: 5346 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 21%|##1       | 21/100 [00:00<00:00, 199.44it/s] 41%|####1     | 41/100 [00:00<00:00, 172.21it/s] 59%|#####8    | 59/100 [00:00<00:00, 168.08it/s] 79%|#######9  | 79/100 [00:00<00:00, 179.09it/s] 98%|#########8| 98/100 [00:00<00:00, 181.24it/s]100%|##########| 100/100 [00:00<00:00, 177.60it/s]
+Train Epoch 89
+{
+    "Cosine_Loss": 0.22934988871216774,
+    "L1_Loss": 0.016067320564761758,
+    "L2_Loss": 0.03332174325361848,
+    "Loss": 0.03332174325361848,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.22589081836411423,
+    "Time_Data_Loading": 0.0011515617370605469,
+    "Time_Epoch": 0.009394768873850505,
+    "Time_Log_Info": 0.0018076221148173013,
+    "Time_Process_Batch": 0.001239931583404541,
+    "Time_Train_Batch": 0.0051700313886006675
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 89 Memory Usage: 5346 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 184.12it/s] 39%|###9      | 39/100 [00:00<00:00, 188.87it/s] 60%|######    | 60/100 [00:00<00:00, 192.13it/s] 80%|########  | 80/100 [00:00<00:00, 172.19it/s] 98%|#########8| 98/100 [00:00<00:00, 169.19it/s]100%|##########| 100/100 [00:00<00:00, 174.61it/s]
+Train Epoch 90
+{
+    "Cosine_Loss": 0.22936006113886834,
+    "L1_Loss": 0.01668947661295533,
+    "L2_Loss": 0.03478300735354423,
+    "Loss": 0.03478300735354423,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.341277576332941,
+    "Time_Data_Loading": 0.0011437733968098958,
+    "Time_Epoch": 0.009553901354471843,
+    "Time_Log_Info": 0.0019410292307535807,
+    "Time_Process_Batch": 0.0012521187464396158,
+    "Time_Train_Batch": 0.005193106333414714
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 90 Memory Usage: 5346 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 150.14it/s] 37%|###7      | 37/100 [00:00<00:00, 184.04it/s] 58%|#####8    | 58/100 [00:00<00:00, 191.84it/s] 78%|#######8  | 78/100 [00:00<00:00, 193.34it/s] 98%|#########8| 98/100 [00:00<00:00, 188.76it/s]100%|##########| 100/100 [00:00<00:00, 186.15it/s]
+Train Epoch 91
+{
+    "Cosine_Loss": 0.2259758208692074,
+    "L1_Loss": 0.01609346945770085,
+    "L2_Loss": 0.03345374871045351,
+    "Loss": 0.03345374871045351,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.260943947702508,
+    "Time_Data_Loading": 0.0011000315348307292,
+    "Time_Epoch": 0.008963735898335774,
+    "Time_Log_Info": 0.001729285717010498,
+    "Time_Process_Batch": 0.0012587666511535644,
+    "Time_Train_Batch": 0.004850335915883382
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 91 Memory Usage: 5346 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 181.11it/s] 38%|###8      | 38/100 [00:00<00:00, 172.11it/s] 56%|#####6    | 56/100 [00:00<00:00, 154.52it/s] 72%|#######2  | 72/100 [00:00<00:00, 147.09it/s] 87%|########7 | 87/100 [00:00<00:00, 140.30it/s]100%|##########| 100/100 [00:00<00:00, 150.78it/s]
+Train Epoch 92
+{
+    "Cosine_Loss": 0.22882909074425697,
+    "L1_Loss": 0.016269324412569404,
+    "L2_Loss": 0.03389914559200406,
+    "Loss": 0.03389914559200406,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2589038989801156,
+    "Time_Data_Loading": 0.0012336293856302896,
+    "Time_Epoch": 0.011064334710439046,
+    "Time_Log_Info": 0.0022246917088826496,
+    "Time_Process_Batch": 0.0013890862464904785,
+    "Time_Train_Batch": 0.006187872091929118
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 92 Memory Usage: 5346 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 172.28it/s] 37%|###7      | 37/100 [00:00<00:00, 180.66it/s] 59%|#####8    | 59/100 [00:00<00:00, 197.08it/s] 82%|########2 | 82/100 [00:00<00:00, 207.22it/s]100%|##########| 100/100 [00:00<00:00, 203.05it/s]
+Train Epoch 93
+{
+    "Cosine_Loss": 0.230601164996624,
+    "L1_Loss": 0.016064959736540915,
+    "L2_Loss": 0.033462133966386316,
+    "Loss": 0.033462133966386316,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.21953454630211128,
+    "Time_Data_Loading": 0.0010775526364644368,
+    "Time_Epoch": 0.008216369152069091,
+    "Time_Log_Info": 0.0014258265495300294,
+    "Time_Process_Batch": 0.0012094974517822266,
+    "Time_Train_Batch": 0.004482674598693848
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 93 Memory Usage: 5347 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 15%|#5        | 15/100 [00:00<00:00, 142.73it/s] 30%|###       | 30/100 [00:00<00:00, 139.44it/s] 46%|####6     | 46/100 [00:00<00:00, 146.64it/s] 68%|######8   | 68/100 [00:00<00:00, 174.10it/s] 89%|########9 | 89/100 [00:00<00:00, 185.52it/s]100%|##########| 100/100 [00:00<00:00, 171.93it/s]
+Train Epoch 94
+{
+    "Cosine_Loss": 0.22385729104280472,
+    "L1_Loss": 0.01556446185335517,
+    "L2_Loss": 0.03232697555795312,
+    "Loss": 0.03232697555795312,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.21461658152189556,
+    "Time_Data_Loading": 0.0011551856994628906,
+    "Time_Epoch": 0.009702714284261067,
+    "Time_Log_Info": 0.0019509712855021158,
+    "Time_Process_Batch": 0.0012861371040344238,
+    "Time_Train_Batch": 0.0052849809328715
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 94 Memory Usage: 5347 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 172.77it/s] 38%|###8      | 38/100 [00:00<00:00, 186.14it/s] 59%|#####8    | 59/100 [00:00<00:00, 191.45it/s] 80%|########  | 80/100 [00:00<00:00, 196.78it/s]100%|##########| 100/100 [00:00<00:00, 180.05it/s]100%|##########| 100/100 [00:00<00:00, 184.04it/s]
+Train Epoch 95
+{
+    "Cosine_Loss": 0.22518764585256576,
+    "L1_Loss": 0.016064218636602165,
+    "L2_Loss": 0.03342929113656282,
+    "Loss": 0.03342929113656282,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2613201800297793,
+    "Time_Data_Loading": 0.0011533538500467936,
+    "Time_Epoch": 0.009064229329427083,
+    "Time_Log_Info": 0.0016792734464009603,
+    "Time_Process_Batch": 0.001234281063079834,
+    "Time_Train_Batch": 0.004972569147745768
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 95 Memory Usage: 5347 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 16%|#6        | 16/100 [00:00<00:00, 150.55it/s] 32%|###2      | 32/100 [00:00<00:00, 152.09it/s] 53%|#####3    | 53/100 [00:00<00:00, 174.84it/s] 71%|#######1  | 71/100 [00:00<00:00, 174.94it/s] 90%|######### | 90/100 [00:00<00:00, 177.55it/s]100%|##########| 100/100 [00:00<00:00, 173.70it/s]
+Train Epoch 96
+{
+    "Cosine_Loss": 0.22192486971616746,
+    "L1_Loss": 0.015798548040911554,
+    "L2_Loss": 0.03286284297704697,
+    "Loss": 0.03286284297704697,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2458642510711252,
+    "Time_Data_Loading": 0.00115280548731486,
+    "Time_Epoch": 0.009604084491729736,
+    "Time_Log_Info": 0.0019342978795369467,
+    "Time_Process_Batch": 0.0012541015942891438,
+    "Time_Train_Batch": 0.005238529046376546
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 96 Memory Usage: 5347 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 19%|#9        | 19/100 [00:00<00:00, 184.48it/s] 40%|####      | 40/100 [00:00<00:00, 197.62it/s] 60%|######    | 60/100 [00:00<00:00, 194.87it/s] 80%|########  | 80/100 [00:00<00:00, 178.64it/s] 99%|#########9| 99/100 [00:00<00:00, 169.03it/s]100%|##########| 100/100 [00:00<00:00, 176.60it/s]
+Train Epoch 97
+{
+    "Cosine_Loss": 0.22643958404660225,
+    "L1_Loss": 0.016132729602977635,
+    "L2_Loss": 0.03358546335250139,
+    "Loss": 0.03358546335250139,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.20371488338563723,
+    "Time_Data_Loading": 0.0011017839113871255,
+    "Time_Epoch": 0.009449501832326254,
+    "Time_Log_Info": 0.0020705382029215496,
+    "Time_Process_Batch": 0.0012331128120422364,
+    "Time_Train_Batch": 0.00501789649327596
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 97 Memory Usage: 5347 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 18%|#8        | 18/100 [00:00<00:00, 173.57it/s] 42%|####2     | 42/100 [00:00<00:00, 209.83it/s] 64%|######4   | 64/100 [00:00<00:00, 206.16it/s] 87%|########7 | 87/100 [00:00<00:00, 212.71it/s]100%|##########| 100/100 [00:00<00:00, 210.85it/s]
+Train Epoch 98
+{
+    "Cosine_Loss": 0.22341483131051063,
+    "L1_Loss": 0.01598826759494841,
+    "L2_Loss": 0.033418905697762964,
+    "Loss": 0.033418905697762964,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2811124285339974,
+    "Time_Data_Loading": 0.001052252451578776,
+    "Time_Epoch": 0.007912568251291911,
+    "Time_Log_Info": 0.0014563838640848795,
+    "Time_Process_Batch": 0.0011805494626363118,
+    "Time_Train_Batch": 0.0042042374610900875
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 98 Memory Usage: 5347 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 226.07it/s] 46%|####6     | 46/100 [00:00<00:00, 213.59it/s] 68%|######8   | 68/100 [00:00<00:00, 207.01it/s] 89%|########9 | 89/100 [00:00<00:00, 194.91it/s]100%|##########| 100/100 [00:00<00:00, 194.53it/s]
+Train Epoch 99
+{
+    "Cosine_Loss": 0.2224336190521717,
+    "L1_Loss": 0.015882045784965156,
+    "L2_Loss": 0.033064564429223536,
+    "Loss": 0.033064564429223536,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.2287318042199513,
+    "Time_Data_Loading": 0.001069819927215576,
+    "Time_Epoch": 0.008577318986256917,
+    "Time_Log_Info": 0.001789689064025879,
+    "Time_Process_Batch": 0.0011886119842529296,
+    "Time_Train_Batch": 0.004508519172668457
+}
+
+saving latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth...
+
+save checkpoint to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last.pth
+
+saved backup of latest model at /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/last_bak.pth
+
+
+Epoch 99 Memory Usage: 5348 MB
+
+  0%|          | 0/100 [00:00<?, ?it/s] 23%|##3       | 23/100 [00:00<00:00, 226.58it/s] 48%|####8     | 48/100 [00:00<00:00, 235.57it/s] 72%|#######2  | 72/100 [00:00<00:00, 231.52it/s] 96%|#########6| 96/100 [00:00<00:00, 208.23it/s]100%|##########| 100/100 [00:00<00:00, 214.59it/s]
+Train Epoch 100
+{
+    "Cosine_Loss": 0.2197045622766018,
+    "L1_Loss": 0.016117252418771388,
+    "L2_Loss": 0.033714559227228165,
+    "Loss": 0.033714559227228165,
+    "Optimizer/policy0_lr": 0.0001,
+    "Policy_Grad_Norms": 0.27394862645520335,
+    "Time_Data_Loading": 0.0010542352994283041,
+    "Time_Epoch": 0.007776618003845215,
+    "Time_Log_Info": 0.0013086279233296713,
+    "Time_Process_Batch": 0.0011751214663187663,
+    "Time_Train_Batch": 0.0042166590690612795
+}
+video writes to /Users/erik/stanford/asl_rotation/robomimic/robomimic/../bc_trained_models/test/20260108181642/videos/low_dim_v15_epoch_100.mp4
+rollout: env=NutAssemblySquare, horizon=400, use_goals=False, num_episodes=50
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|2         | 1/50 [00:03<03:13,  3.95s/it]  4%|4         | 2/50 [00:07<03:11,  3.99s/it]  6%|6         | 3/50 [00:12<03:08,  4.01s/it]  8%|8         | 4/50 [00:16<03:04,  4.01s/it] 10%|#         | 5/50 [00:19<02:59,  3.98s/it] 12%|#2        | 6/50 [00:23<02:53,  3.93s/it] 14%|#4        | 7/50 [00:27<02:49,  3.94s/it] 16%|#6        | 8/50 [00:31<02:49,  4.04s/it] 18%|#8        | 9/50 [00:35<02:42,  3.98s/it] 20%|##        | 10/50 [00:39<02:36,  3.91s/it] 22%|##2       | 11/50 [00:43<02:31,  3.87s/it] 24%|##4       | 12/50 [00:47<02:25,  3.82s/it] 26%|##6       | 13/50 [00:51<02:23,  3.88s/it] 28%|##8       | 14/50 [00:55<02:20,  3.90s/it] 30%|###       | 15/50 [00:58<02:15,  3.86s/it] 32%|###2      | 16/50 [01:02<02:10,  3.84s/it] 34%|###4      | 17/50 [01:04<01:42,  3.11s/it] 36%|###6      | 18/50 [01:07<01:45,  3.31s/it] 38%|###8      | 19/50 [01:11<01:47,  3.45s/it] 40%|####      | 20/50 [01:15<01:45,  3.52s/it] 42%|####2     | 21/50 [01:19<01:44,  3.62s/it] 44%|####4     | 22/50 [01:22<01:42,  3.67s/it] 46%|####6     | 23/50 [01:26<01:40,  3.73s/it] 48%|####8     | 24/50 [01:30<01:37,  3.76s/it] 50%|#####     | 25/50 [01:34<01:34,  3.77s/it] 52%|#####2    | 26/50 [01:38<01:30,  3.76s/it] 54%|#####4    | 27/50 [01:41<01:26,  3.77s/it] 56%|#####6    | 28/50 [01:43<01:05,  2.99s/it] 58%|#####8    | 29/50 [01:46<01:08,  3.25s/it] 60%|######    | 30/50 [01:50<01:08,  3.43s/it] 62%|######2   | 31/50 [01:54<01:06,  3.52s/it] 64%|######4   | 32/50 [01:58<01:04,  3.57s/it] 66%|######6   | 33/50 [02:01<01:01,  3.62s/it] 68%|######8   | 34/50 [02:05<00:58,  3.66s/it] 70%|#######   | 35/50 [02:09<00:56,  3.79s/it] 72%|#######2  | 36/50 [02:13<00:53,  3.81s/it] 74%|#######4  | 37/50 [02:17<00:49,  3.78s/it]
