@@ -11,6 +11,29 @@ Usage:
         --n_samples 100 \
         --n_trials 5 \
         --num_workers 8
+
+State Vector Indexing Notes:
+----------------------------
+The flattened state vector from env.get_state()["states"] has a different structure
+than raw MuJoCo qpos. For a Lift task with Panda robot:
+
+    MuJoCo qpos (nq=16 elements):
+        [0:7]   robot joints (7)
+        [7:9]   gripper joints (2)
+        [9:12]  cube position x, y, z (3)
+        [12:16] cube quaternion w, x, y, z (4)
+
+    Flattened state vector (nq + nv + 1 = 16 + 15 + 1 = 32 elements):
+        [0]     time (1)
+        [1:8]   robot joints (7)
+        [8:10]  gripper joints (2)
+        [10:13] cube position x, y, z (3)      <- +1 offset from qpos
+        [13:17] cube quaternion w, x, y, z (4) <- +1 offset from qpos
+        [17:32] qvel (nv=15)
+
+Key offsets when mapping from jnt_qposadr to state vector indices:
+  - Object position/quaternion: add +1 (accounts for time at index 0)
+  - qvel_start: nq + 1 (not just nq, due to time offset)
 """
 
 import argparse
@@ -166,8 +189,8 @@ class StateSampler:
         obj_qpos_start = obj_info["qpos_start"]
 
         # For free joints, position is first 3 DOF, quaternion is next 4 DOF
-        # The +1 offset accounts for an extra gripper actuator value in the
-        # flattened state vector that isn't in raw qpos
+        # The +1 offset accounts for time being stored at index 0 in the
+        # flattened state vector (see docstring for full structure)
         if obj_info["type"] == 0:  # Free joint
             self.obj_pos_start = obj_qpos_start + 1
             self.obj_pos_end = obj_qpos_start + 4
