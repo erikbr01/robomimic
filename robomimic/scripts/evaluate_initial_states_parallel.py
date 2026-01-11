@@ -25,6 +25,7 @@ from pathlib import Path
 import imageio
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
+import mujoco
 import numpy as np
 import torch
 from PIL import Image, ImageDraw, ImageFont
@@ -33,6 +34,16 @@ import robomimic.utils.file_utils as FileUtils
 import robomimic.utils.obs_utils as ObsUtils
 import robomimic.utils.torch_utils as TorchUtils
 from robomimic.envs.env_base import EnvBase
+
+
+def qvel_width(joint_type: mujoco.mjtJoint) -> int:
+    """Get the dimensionality of the joint in qvel."""
+    return {0: 6, 1: 3, 2: 1, 3: 1}[joint_type]
+
+
+def qpos_width(joint_type: mujoco.mjtJoint) -> int:
+    """Get the dimensionality of the joint in qpos."""
+    return {0: 7, 1: 4, 2: 1, 3: 1}[joint_type]
 
 
 class StateSampler:
@@ -85,70 +96,92 @@ class StateSampler:
         """
         Query MuJoCo model to find the correct indices for robot, gripper, and object.
         This ensures we're robust to different robot models and configurations.
+
+        Creates a mapping of joint names to their qpos and qvel indices.
         """
         sim = self.base_env.sim
 
-        # The flattened state vector from robosuite has structure:
-        # [time_offset(1), qpos(nq), qvel(nv)]
-        # But get_state().flatten() gives: [qpos(nq), qvel(nv), time(1)]
-        # Let's verify by checking the actual structure
-
-        # Find object joint (typically a free joint for the cube)
-        obj_joint_idx = None
-        obj_joint_qpos_addr = None
+        # Build comprehensive joint mapping
+        self.joint_map = {}
+        qvel_offset = 0
 
         for i in range(sim.model.njnt):
             jnt_name = sim.model.joint_id2name(i)
+            jnt_id = sim.model.joint(jnt_name).id
+            jnt_type = sim.model.jnt_type[jnt_id]
+
+            qpos_addr = sim.model.jnt_qposadr[i]
+            qpos_size = qpos_width(jnt_type)
+            qvel_size = qvel_width(jnt_type)
+            qvel_addr = sim.model.jnt_dofadr[i]
+
+            self.joint_map[jnt_name] = {
+                "type": jnt_type,
+                "qpos_start": qpos_addr,
+                "qpos_end": qpos_addr + qpos_size,
+                "qpos_size": qpos_size,
+                "qvel_start": qvel_addr,
+                "qvel_end": qvel_addr + qvel_size,
+                "qvel_size": qvel_size,
+            }
+
+        # Identify joint categories
+        robot_joints = []
+        gripper_joints = []
+        object_joint = None
+
+        for jnt_name, jnt_info in self.joint_map.items():
             if "cube" in jnt_name.lower() or "object" in jnt_name.lower():
-                obj_joint_idx = i
-                obj_joint_qpos_addr = sim.model.jnt_qposadr[i]
-                break
-
-        if obj_joint_qpos_addr is None:
-            # Fallback: assume standard structure
-            print("Warning: Could not find object joint, using default indices")
-            self.robot_qpos_start = 0
-            self.robot_qpos_end = 7
-            self.gripper_qpos_start = 7
-            self.gripper_qpos_end = 9
-            self.obj_pos_start = 9
-            self.obj_pos_end = 12
-            self.obj_quat_start = 12
-            self.obj_quat_end = 16
-            self.qvel_start = 16
-        else:
-            # Object is at obj_joint_qpos_addr + 1 (position = 3 DOF, quat = 4 DOF for free joint)
-            # The +1 offset accounts for the gripper having 2 joints that occupy qpos[7] and qpos[8]
-            # even though jnt_qposadr reports the cube joint starts at 9
-            self.obj_pos_start = obj_joint_qpos_addr + 1
-            self.obj_pos_end = obj_joint_qpos_addr + 4
-            self.obj_quat_start = obj_joint_qpos_addr + 4
-            self.obj_quat_end = obj_joint_qpos_addr + 8
-
-            # Find gripper joints (look for gripper in name)
-            gripper_start = None
-            for i in range(sim.model.njnt):
-                jnt_name = sim.model.joint_id2name(i)
-                if "gripper" in jnt_name.lower():
-                    gripper_start = sim.model.jnt_qposadr[i]
-                    break
-
-            if gripper_start is not None:
-                self.gripper_qpos_start = gripper_start
-                self.gripper_qpos_end = (
-                    gripper_start + 3
-                )  # 3 gripper joints (including coupled joint)
-                self.robot_qpos_start = 0
-                self.robot_qpos_end = gripper_start
+                object_joint = jnt_name
+            elif "gripper" in jnt_name.lower():
+                gripper_joints.append(jnt_name)
             else:
-                # Fallback
-                self.robot_qpos_start = 0
-                self.robot_qpos_end = obj_joint_qpos_addr - 3  # Assume 3 gripper joints
-                self.gripper_qpos_start = obj_joint_qpos_addr - 3
-                self.gripper_qpos_end = obj_joint_qpos_addr
+                # Assume remaining joints are robot arm joints
+                robot_joints.append(jnt_name)
 
-            # qvel starts after qpos (which is 17 for this robot configuration)
-            self.qvel_start = 17
+        if object_joint is None:
+            raise ValueError("Could not find object joint in MuJoCo model")
+
+        # Set robot joint indices (continuous range from first robot joint)
+        if robot_joints:
+            robot_joints.sort(key=lambda x: self.joint_map[x]["qpos_start"])
+            self.robot_qpos_start = self.joint_map[robot_joints[0]]["qpos_start"]
+            self.robot_qpos_end = self.joint_map[robot_joints[-1]]["qpos_end"]
+        else:
+            self.robot_qpos_start = 0
+            self.robot_qpos_end = 0
+
+        # Set gripper joint indices (continuous range from first gripper joint)
+        if gripper_joints:
+            gripper_joints.sort(key=lambda x: self.joint_map[x]["qpos_start"])
+            self.gripper_qpos_start = self.joint_map[gripper_joints[0]]["qpos_start"]
+            self.gripper_qpos_end = self.joint_map[gripper_joints[-1]]["qpos_end"]
+        else:
+            # No gripper joints found, use empty range
+            self.gripper_qpos_start = self.robot_qpos_end
+            self.gripper_qpos_end = self.robot_qpos_end
+
+        # Set object joint indices
+        obj_info = self.joint_map[object_joint]
+        obj_qpos_start = obj_info["qpos_start"]
+
+        # For free joints, position is first 3 DOF, quaternion is next 4 DOF
+        # The +1 offset accounts for an extra gripper actuator value in the
+        # flattened state vector that isn't in raw qpos
+        if obj_info["type"] == 0:  # Free joint
+            self.obj_pos_start = obj_qpos_start + 1
+            self.obj_pos_end = obj_qpos_start + 4
+            self.obj_quat_start = obj_qpos_start + 4
+            self.obj_quat_end = obj_qpos_start + 8
+        else:
+            # For other joint types, adjust accordingly
+            self.obj_pos_start = obj_qpos_start + 1
+            self.obj_pos_end = obj_qpos_start + 1 + min(3, obj_info["qpos_size"])
+            self.obj_quat_start = self.obj_pos_end
+            self.obj_quat_end = obj_info["qpos_end"] + 1
+
+        # qvel starts after qpos, with +1 offset for time at the beginning
+        self.qvel_start = sim.model.nq + 1
 
     def sample_random(
         self, n_samples=1, check_collision=True, max_attempts=100, fixed_theta=None
