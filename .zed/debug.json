@@ -1,0 +1,28 @@
+// Project-local debug tasks
+//
+// For more documentation on how to configure debug tasks,
+// see: https://zed.dev/docs/debugger
+[
+  {
+    "adapter": "Debugpy",
+    "label": "Run parallel evaluation",
+    "request": "launch",
+    "program": "robomimic/scripts/evaluate_initial_states_parallel.py",
+    "args": [
+      "--checkpoint",
+      "bc_trained_models/test_lift/20260109145417/models/model_epoch_550.pth",
+      "--n_samples",
+      "50",
+      "--n_trials",
+      "2",
+      "--num_workers",
+      "12",
+      "--output_dir",
+      "evaluation_lift_test_again",
+      "--seed",
+      "42",
+      "--render_videos",
+      "--render_all",
+    ],
+  },
+]
