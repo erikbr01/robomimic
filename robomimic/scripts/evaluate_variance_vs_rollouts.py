@@ -50,7 +50,7 @@ def qpos_width(joint_type: mujoco.mjtJoint) -> int:
 class StateSampler:
     """Simple random sampler for object placements with collision checking."""
 
-    def __init__(self, env, fixed_robot_qpos=None):
+    def __init__(self, env, fixed_robot_qpos=None, fixed_gripper_qpos=None):
         self.env = env
         self.base_env = env.base_env if hasattr(env, "base_env") else env
 
@@ -72,16 +72,20 @@ class StateSampler:
         obs = self.env.reset()
         self.template_state = self.env.get_state()
 
+        # Store fixed robot and gripper qpos - these will be the same across all seeds
         if fixed_robot_qpos is not None:
             self.robot_qpos = fixed_robot_qpos
         else:
             self.robot_qpos = self.template_state["states"][
-                self.robot_qpos_start : self.gripper_qpos_start
+                self.robot_qpos_start : self.robot_qpos_end
             ].copy()
 
-        self.gripper_qpos = self.template_state["states"][
-            self.gripper_qpos_start : self.gripper_qpos_end
-        ].copy()
+        if fixed_gripper_qpos is not None:
+            self.gripper_qpos = fixed_gripper_qpos
+        else:
+            self.gripper_qpos = self.template_state["states"][
+                self.gripper_qpos_start : self.gripper_qpos_end
+            ].copy()
 
     def _find_state_indices(self):
         sim = self.base_env.sim
@@ -237,14 +241,24 @@ def evaluate_seed_worker(args):
     Samples max_rollouts states and evaluates each one.
 
     Args:
-        args: tuple of (seed, checkpoint_path, horizon, max_rollouts, n_trials, device_id)
+        args: tuple of (seed, checkpoint_path, horizon, max_rollouts, n_trials, device_id,
+                       fixed_robot_qpos, fixed_gripper_qpos)
 
     Returns:
         tuple of (seed, states, success_results) where:
             - states is array of shape (max_rollouts, 3) with (x, y, theta)
             - success_results is array of shape (max_rollouts,) with success values
     """
-    seed, checkpoint_path, horizon, max_rollouts, n_trials, device_id = args
+    (
+        seed,
+        checkpoint_path,
+        horizon,
+        max_rollouts,
+        n_trials,
+        device_id,
+        fixed_robot_qpos,
+        fixed_gripper_qpos,
+    ) = args
 
     # Suppress stdout/stderr
     sys.stdout = open(os.devnull, "w")
@@ -253,7 +267,7 @@ def evaluate_seed_worker(args):
     if device_id is not None:
         os.environ["CUDA_VISIBLE_DEVICES"] = str(device_id)
 
-    # Set seed for this worker
+    # Set seed for this worker (only affects object placement randomization)
     np.random.seed(seed)
     torch.manual_seed(seed)
 
@@ -267,7 +281,10 @@ def evaluate_seed_worker(args):
         ckpt_dict=ckpt_dict, render=False, render_offscreen=False, verbose=False
     )
 
-    sampler = StateSampler(env)
+    # Use fixed robot and gripper qpos across all seeds
+    sampler = StateSampler(
+        env, fixed_robot_qpos=fixed_robot_qpos, fixed_gripper_qpos=fixed_gripper_qpos
+    )
 
     # Sample all states with this seed
     states = sampler.sample_random(n_samples=max_rollouts, check_collision=True)
@@ -739,6 +756,12 @@ def run_evaluation(args):
     sampler = StateSampler(env)
     print(f"  Valid region: x in {sampler.x_range}, y in {sampler.y_range}")
 
+    # Extract fixed robot and gripper qpos to use across all seeds
+    fixed_robot_qpos = sampler.robot_qpos.copy()
+    fixed_gripper_qpos = sampler.gripper_qpos.copy()
+    print(f"  Fixed robot qpos: {fixed_robot_qpos}")
+    print(f"  Fixed gripper qpos: {fixed_gripper_qpos}")
+
     # Prepare worker arguments
     print(f"\n[2/4] Preparing {args.n_seeds} seed evaluations...")
     print(f"  Max rollouts per seed: {args.max_rollouts}")
@@ -763,6 +786,8 @@ def run_evaluation(args):
             args.max_rollouts,
             args.n_trials,
             device_assignment[i % args.num_workers],
+            fixed_robot_qpos,
+            fixed_gripper_qpos,
         )
         for i, seed in enumerate(seeds)
     ]
