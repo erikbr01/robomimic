@@ -281,12 +281,12 @@ def evaluate_seed_worker(args):
         ckpt_dict=ckpt_dict, render=False, render_offscreen=False, verbose=False
     )
 
-    # Use fixed robot and gripper qpos across all seeds
+    # Use fixed robot and gripper qpos across all seeds (if provided)
     sampler = StateSampler(
         env, fixed_robot_qpos=fixed_robot_qpos, fixed_gripper_qpos=fixed_gripper_qpos
     )
 
-    # Sample all states with this seed
+    # Sample all object states with this seed
     states = sampler.sample_random(n_samples=max_rollouts, check_collision=True)
 
     # Evaluate each state
@@ -294,7 +294,23 @@ def evaluate_seed_worker(args):
 
     for i, state in enumerate(states):
         x, y, theta = state
-        state_dict = sampler.create_state_dict(x, y, theta)
+
+        # If robot state is not fixed, sample a random one from env.reset()
+        if fixed_robot_qpos is None:
+            # Get random robot state from env reset
+            obs = env.reset()
+            random_state = env.get_state()
+            robot_qpos = random_state["states"][
+                sampler.robot_qpos_start : sampler.robot_qpos_end
+            ].copy()
+            gripper_qpos = random_state["states"][
+                sampler.gripper_qpos_start : sampler.gripper_qpos_end
+            ].copy()
+            state_dict = sampler.create_state_dict(
+                x, y, theta, robot_qpos=robot_qpos, gripper_qpos=gripper_qpos
+            )
+        else:
+            state_dict = sampler.create_state_dict(x, y, theta)
 
         # Run n_trials and take majority vote (or just single trial if n_trials=1)
         trial_successes = []
@@ -756,11 +772,17 @@ def run_evaluation(args):
     sampler = StateSampler(env)
     print(f"  Valid region: x in {sampler.x_range}, y in {sampler.y_range}")
 
-    # Extract fixed robot and gripper qpos to use across all seeds
-    fixed_robot_qpos = sampler.robot_qpos.copy()
-    fixed_gripper_qpos = sampler.gripper_qpos.copy()
-    print(f"  Fixed robot qpos: {fixed_robot_qpos}")
-    print(f"  Fixed gripper qpos: {fixed_gripper_qpos}")
+    # Conditionally extract fixed robot and gripper qpos to use across all seeds
+    if args.fix_robot_state:
+        fixed_robot_qpos = sampler.robot_qpos.copy()
+        fixed_gripper_qpos = sampler.gripper_qpos.copy()
+        print(f"  Mode: FIXED robot state (only object pose randomized)")
+        print(f"  Fixed robot qpos: {fixed_robot_qpos}")
+        print(f"  Fixed gripper qpos: {fixed_gripper_qpos}")
+    else:
+        fixed_robot_qpos = None
+        fixed_gripper_qpos = None
+        print(f"  Mode: RANDOMIZED both robot and object poses")
 
     # Prepare worker arguments
     print(f"\n[2/4] Preparing {args.n_seeds} seed evaluations...")
@@ -964,6 +986,13 @@ if __name__ == "__main__":
         type=int,
         default=42,
         help="Base random seed (each evaluation uses seed + i*1000)",
+    )
+
+    parser.add_argument(
+        "--fix_robot_state",
+        action="store_true",
+        help="If set, keeps robot initial state fixed across all seeds (only randomizes object pose). "
+        "If not set, both robot and object poses are randomized.",
     )
 
     args = parser.parse_args()
